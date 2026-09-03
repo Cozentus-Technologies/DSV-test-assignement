@@ -22,6 +22,10 @@
 
     <surefire.version>3.5.2</surefire.version>
     <jacoco.version>0.8.12</jacoco.version>
+
+    <!-- SPEC 8.4 defaults; override with -Dbulk.count=30000 -Dbulk.seed=42 -->
+    <bulk.count>20000</bulk.count>
+    <bulk.seed>42</bulk.seed>
     <compiler.version>3.13.0</compiler.version>
   </properties>
 
@@ -132,6 +136,7 @@
 
   <profiles>
     <profile>
+      <!-- SPEC 8.4: opt-in bulk run. mvn -q verify -Pbulk [-Dbulk.count=30000] -->
       <id>bulk</id>
       <build>
         <plugins>
@@ -139,7 +144,12 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
-              <excludedGroups></excludedGroups>
+              <excludedGroups combine.self="override"></excludedGroups>
+              <systemPropertyVariables>
+                <java.util.logging.config.file>src/test/resources/logging.properties</java.util.logging.config.file>
+                <bulk.count>${bulk.count}</bulk.count>
+                <bulk.seed>${bulk.seed}</bulk.seed>
+              </systemPropertyVariables>
             </configuration>
           </plugin>
         </plugins>

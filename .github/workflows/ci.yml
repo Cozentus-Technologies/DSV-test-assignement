@@ -5,6 +5,9 @@ on:
     branches: [main]
   pull_request:
   workflow_dispatch:
+  schedule:
+    # Nightly bulk run: the volume guard only earns its keep if it runs.
+    - cron: '17 2 * * *'
 
 jobs:
   verify:
@@ -51,8 +54,8 @@ jobs:
 
   bulk:
     name: Bulk (20k / 30k)
-    # Manual for now; becomes meaningful once task 6 lands the @Tag("bulk") test.
-    if: github.event_name == 'workflow_dispatch'
+    # Not on every push: it is a volume guard, not a per-commit check.
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
     runs-on: ubuntu-latest
     strategy:
       matrix:

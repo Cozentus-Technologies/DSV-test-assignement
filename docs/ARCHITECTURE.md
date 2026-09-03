@@ -379,8 +379,8 @@ flowchart TD
 
     classDef done fill:#dfd,stroke:#2a2,color:#141;
     classDef pending fill:#eee,stroke:#999,color:#333;
-    class T1,T2,T3,T4,T5 done
-    class T6,T7 pending
+    class T1,T2,T3,T4,T5,T6 done
+    class T7 pending
 ```
 
 CLAUDE.md's task order is a strict sequence: "work one task at a time. After each,
@@ -429,7 +429,7 @@ realistic distribution, and the bulk run proves the invariants hold at volume.
 | Unit | JUnit 5 + AssertJ | Every SPEC §5 sanity-table row and every SPEC §6 reason, no bus | `mvn -q verify` | **121 tests green** (tasks 1-3, 5) |
 | **BDD** | **Cucumber-JVM 7** | **End-to-end routing through the bus matches the 11 agreed scenarios** | `mvn -q verify` | **15 scenarios green** (task 4) |
 | Data-driven | Cucumber + committed JSONL | Behaviour holds over a 200-row reproducible dataset vs. its oracle | `mvn -q verify` | **1 scenario green** (task 5) |
-| Bulk | JUnit `@Tag("bulk")` | Aggregate invariants and throughput at 20 000 / 30 000 | `mvn -q verify -Pbulk` | pending (task 6) |
+| Bulk | JUnit `@Tag("bulk")` | Aggregate invariants and throughput at 20 000 / 30 000 | `mvn -q verify -Pbulk` | **green at both** (task 6) |
 
 Reports: Cucumber HTML + JSON to `target/cucumber` (SPEC §10).
 
@@ -569,6 +569,26 @@ The guard was mutation-tested rather than assumed. Tightening the confidence gat
 from 0.85 to 0.95 produced 9 failures and 2 errors; widening the short-name
 distance cap from 1 to 2 produced 3 failures. Both were caught by the unit layer
 and the Cucumber layer independently.
+
+### Bulk results (SPEC 8.4)
+
+Measured on an Apple silicon laptop, JDK 21, synchronous in-memory bus. Throughput
+is of the load-and-process phase; generation builds the oracle separately.
+
+| Messages | Seed | Generate | Load + process | Throughput | Enriched | Flagged |
+|---|---|---|---|---|---|---|
+| 20 000 | 42 | 106 ms | 179 ms | 111 732 msg/sec | 9 717 | 10 283 |
+| 30 000 | 42 | 133 ms | 231 ms | 129 870 msg/sec | 14 529 | 15 471 |
+| 30 000 | 99 | — | — | — | 14 369 | 15 631 |
+
+The third row exists to show `-Dbulk.seed` genuinely changes the distribution
+rather than being silently ignored. `-Pbulk` runs the whole suite, not only the
+tagged test: 123 tests.
+
+These numbers describe an in-memory queue with synchronous delivery, so they
+measure the enrichment path and JSON binding — not Kafka. They are a regression
+signal for "did this change make matching dramatically slower", not a capacity
+estimate for the real service.
 
 ### Known coverage gap
 
