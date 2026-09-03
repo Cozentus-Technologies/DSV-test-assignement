@@ -1,0 +1,12 @@
+target/
+.idea/
+*.iml
+.vscode/
+.DS_Store
+*.class
+
+# SPEC 9: generated bulk data is not committed; the 200-row sample is.
+data/*.jsonl
+data/*.expected.json
+!data/bookings-sample.jsonl
+!data/bookings-sample.jsonl.expected.json
