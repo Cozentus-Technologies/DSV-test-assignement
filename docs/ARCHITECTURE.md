@@ -585,6 +585,19 @@ The third row exists to show `-Dbulk.seed` genuinely changes the distribution
 rather than being silently ignored. `-Pbulk` runs the whole suite, not only the
 tagged test: 123 tests.
 
+The same two runs on GitHub's shared runners:
+
+| Messages | Load + process | Throughput | Enriched | Flagged |
+|---|---|---|---|---|
+| 20 000 | 992 ms | 20 161 msg/sec | 9 717 | 10 283 |
+| 30 000 | 1 552 ms | 19 330 msg/sec | 14 529 | 15 471 |
+
+Throughput is five to six times lower on shared CI hardware, which is expected and
+is why the figure is only ever compared against itself. **The enriched and flagged
+counts are identical to the local run.** Same seed, entirely different machine,
+same distribution to the message — that is the determinism requirement of
+CLAUDE.md #7 demonstrated rather than asserted.
+
 These numbers describe an in-memory queue with synchronous delivery, so they
 measure the enrichment path and JSON binding — not Kafka. They are a regression
 signal for "did this change make matching dramatically slower", not a capacity
