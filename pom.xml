@@ -83,6 +83,12 @@
       <artifactId>cucumber-junit-platform-engine</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <!-- Injects the shared ScenarioContext into step classes. -->
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-picocontainer</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
