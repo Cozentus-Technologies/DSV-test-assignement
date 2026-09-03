@@ -99,6 +99,9 @@
         <configuration>
           <!-- Bulk tests are opt-in via -Pbulk (SPEC 8.4). -->
           <excludedGroups>bulk</excludedGroups>
+          <systemPropertyVariables>
+            <java.util.logging.config.file>src/test/resources/logging.properties</java.util.logging.config.file>
+          </systemPropertyVariables>
         </configuration>
       </plugin>
     </plugins>
