@@ -53,6 +53,20 @@ public final class BookingLoader {
     }
 
     public static void main(String[] args) throws IOException {
+        int status = run(args, new InMemoryMessageBus());
+        if (status != 0) {
+            System.exit(status);
+        }
+    }
+
+    /**
+     * The body of {@link #main}, taking the bus so it can be driven from a test.
+     * Returns a process status rather than calling {@code System.exit}, which
+     * would take the test JVM down with it.
+     *
+     * @return 0 on success, 2 when the arguments are unusable
+     */
+    static int run(String[] args, MessageBus bus) throws IOException {
         Path file = null;
         String topic = Topics.RAW;
         for (int i = 0; i < args.length - 1; i++) {
@@ -64,10 +78,10 @@ public final class BookingLoader {
         }
         if (file == null) {
             System.err.println("Usage: BookingLoader --file <jsonl> [--topic booking.raw]");
-            System.exit(2);
-            return;
+            return 2;
         }
-        int published = load(file, topic, new InMemoryMessageBus());
+        int published = load(file, topic, bus);
         System.out.printf("Published %,d rows to %s%n", published, topic);
+        return 0;
     }
 }

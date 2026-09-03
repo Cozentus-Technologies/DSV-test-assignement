@@ -379,8 +379,7 @@ flowchart TD
 
     classDef done fill:#dfd,stroke:#2a2,color:#141;
     classDef pending fill:#eee,stroke:#999,color:#333;
-    class T1,T2,T3,T4,T5,T6 done
-    class T7 pending
+    class T1,T2,T3,T4,T5,T6,T7 done
 ```
 
 CLAUDE.md's task order is a strict sequence: "work one task at a time. After each,
@@ -426,7 +425,7 @@ realistic distribution, and the bulk run proves the invariants hold at volume.
 
 | Layer | Tool | What it proves | Gate | Status |
 |---|---|---|---|---|
-| Unit | JUnit 5 + AssertJ | Every SPEC §5 sanity-table row and every SPEC §6 reason, no bus | `mvn -q verify` | **121 tests green** (tasks 1-3, 5) |
+| Unit | JUnit 5 + AssertJ | Every SPEC §5 sanity-table row and every SPEC §6 reason, no bus | `mvn -q verify` | **131 tests green** (tasks 1-3, 5) |
 | **BDD** | **Cucumber-JVM 7** | **End-to-end routing through the bus matches the 11 agreed scenarios** | `mvn -q verify` | **15 scenarios green** (task 4) |
 | Data-driven | Cucumber + committed JSONL | Behaviour holds over a 200-row reproducible dataset vs. its oracle | `mvn -q verify` | **1 scenario green** (task 5) |
 | Bulk | JUnit `@Tag("bulk")` | Aggregate invariants and throughput at 20 000 / 30 000 | `mvn -q verify -Pbulk` | **green at both** (task 6) |

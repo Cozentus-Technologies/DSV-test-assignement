@@ -237,8 +237,8 @@ public final class BookingDataGenerator {
         oracle.totals().byReason().forEach((reason, n) -> System.out.printf("  %-28s %,d%n", reason, n));
     }
 
-    /** Parses {@code recoverable=70,flaggable=25,malformed=5}. */
-    private static Mix parseMix(String spec) {
+    /** Parses {@code recoverable=70,flaggable=25,malformed=5}. Package-private for testing. */
+    static Mix parseMix(String spec) {
         int recoverable = 0;
         int flaggable = 0;
         int malformed = 0;

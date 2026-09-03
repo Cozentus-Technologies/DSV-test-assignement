@@ -22,6 +22,7 @@
 
     <surefire.version>3.5.2</surefire.version>
     <jacoco.version>0.8.12</jacoco.version>
+    <exec.version>3.5.0</exec.version>
 
     <!-- SPEC 8.4 defaults; override with -Dbulk.count=30000 -Dbulk.seed=42 -->
     <bulk.count>20000</bulk.count>
@@ -102,6 +103,18 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${compiler.version}</version>
+      </plugin>
+      <plugin>
+        <!-- Pinned so `mvn exec:java` is reproducible rather than resolving
+             whatever version Central happens to serve. classpathScope is set
+             here so the documented commands do not have to repeat it. -->
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>${exec.version}</version>
+        <configuration>
+          <classpathScope>runtime</classpathScope>
+          <mainClass>com.cozentus.enrichment.tools.BookingDataGenerator</mainClass>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
