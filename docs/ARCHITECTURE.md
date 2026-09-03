@@ -379,8 +379,8 @@ flowchart TD
 
     classDef done fill:#dfd,stroke:#2a2,color:#141;
     classDef pending fill:#eee,stroke:#999,color:#333;
-    class T1,T2,T3,T4 done
-    class T5,T6,T7 pending
+    class T1,T2,T3,T4,T5 done
+    class T6,T7 pending
 ```
 
 CLAUDE.md's task order is a strict sequence: "work one task at a time. After each,
@@ -426,9 +426,9 @@ realistic distribution, and the bulk run proves the invariants hold at volume.
 
 | Layer | Tool | What it proves | Gate | Status |
 |---|---|---|---|---|
-| Unit | JUnit 5 + AssertJ | Every SPEC §5 sanity-table row and every SPEC §6 reason, no bus | `mvn -q verify` | **85 tests green** (tasks 1-3) |
+| Unit | JUnit 5 + AssertJ | Every SPEC §5 sanity-table row and every SPEC §6 reason, no bus | `mvn -q verify` | **121 tests green** (tasks 1-3, 5) |
 | **BDD** | **Cucumber-JVM 7** | **End-to-end routing through the bus matches the 11 agreed scenarios** | `mvn -q verify` | **15 scenarios green** (task 4) |
-| Data-driven | Cucumber + committed JSONL | Behaviour holds over a 200-row reproducible dataset vs. its oracle | `mvn -q verify` | pending (task 5) |
+| Data-driven | Cucumber + committed JSONL | Behaviour holds over a 200-row reproducible dataset vs. its oracle | `mvn -q verify` | **1 scenario green** (task 5) |
 | Bulk | JUnit `@Tag("bulk")` | Aggregate invariants and throughput at 20 000 / 30 000 | `mvn -q verify -Pbulk` | pending (task 6) |
 
 Reports: Cucumber HTML + JSON to `target/cucumber` (SPEC §10).
@@ -545,6 +545,30 @@ Feature: City enrichment before publishing to TMS
 Nearly every scenario also asserts the negative — "no booking X appears on
 `booking.enriched`" — checking the one-topic-per-booking invariant from both
 directions.
+
+### The committed sample (SPEC 8.3)
+
+`data/bookings-sample.jsonl` — 200 rows, seed 42 — and its oracle
+`data/bookings-sample.jsonl.expected.json` are committed and replayed by
+`features/sample_dataset.feature`. Distribution at the committed seed:
+
+| | Count |
+|---|---|
+| Enriched | 93 |
+| Flagged | 107 |
+| `UNMATCHED_ORIGIN_CITY` | 24 |
+| `UNMATCHED_DESTINATION_CITY` | 43 |
+| `MISSING_ORIGIN_CITY` | 21 |
+| `MISSING_DESTINATION_CITY` | 22 |
+| `MALFORMED_MESSAGE` | 10 |
+
+`AMBIGUOUS_*` is 0, as SPEC 8.4 predicts: the generator applies at most one edit
+and the closest reference pair is 4 apart.
+
+The guard was mutation-tested rather than assumed. Tightening the confidence gate
+from 0.85 to 0.95 produced 9 failures and 2 errors; widening the short-name
+distance cap from 1 to 2 produced 3 failures. Both were caught by the unit layer
+and the Cucumber layer independently.
 
 ### Known coverage gap
 

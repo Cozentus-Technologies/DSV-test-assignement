@@ -8,6 +8,7 @@ import com.cozentus.enrichment.matcher.CityMatcher;
 import com.cozentus.enrichment.matcher.CityReference;
 import com.cozentus.enrichment.model.Booking;
 import com.cozentus.enrichment.processor.EnrichmentProcessor;
+import com.cozentus.enrichment.tools.BookingDataGenerator;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -24,6 +25,7 @@ public class ScenarioContext {
 
     private MessageBus bus;
     private Message lastMessage;
+    private BookingDataGenerator.Oracle oracle;
 
     public void useReferenceCities(List<String> cities) {
         referenceCities.clear();
@@ -81,6 +83,17 @@ public class ScenarioContext {
             throw new IllegalStateException("No message has been located yet in this scenario");
         }
         return lastMessage;
+    }
+
+    public void useOracle(BookingDataGenerator.Oracle oracle) {
+        this.oracle = oracle;
+    }
+
+    public BookingDataGenerator.Oracle oracle() {
+        if (oracle == null) {
+            throw new IllegalStateException("No oracle has been loaded in this scenario");
+        }
+        return oracle;
     }
 
     public void tearDown() {
