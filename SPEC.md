@@ -245,7 +245,9 @@ Feature: City enrichment before publishing to TMS
 
   Scenario: Message key is the bookingId on every topic
     When a raw booking "BKG-18" with origin "Mumbai" and destination "Warsaw" is published
+    And a raw booking "BKG-20" with origin "Mumbi" and destination "Pune" is published
     Then the message for "BKG-18" on "booking.flagged" has key "BKG-18"
+    And the message for "BKG-20" on "booking.enriched" has key "BKG-20"
 
   Scenario: Duplicate bookingId is processed each time it arrives
     When a raw booking "BKG-19" with origin "Mumbai" and destination "Pune" is published twice

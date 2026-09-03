@@ -514,7 +514,9 @@ Feature: City enrichment before publishing to TMS
 
   Scenario: Message key is the bookingId on every topic
     When a raw booking "BKG-18" with origin "Mumbai" and destination "Warsaw" is published
+    And a raw booking "BKG-20" with origin "Mumbi" and destination "Pune" is published
     Then the message for "BKG-18" on "booking.flagged" has key "BKG-18"
+    And the message for "BKG-20" on "booking.enriched" has key "BKG-20"
 
   Scenario: Duplicate bookingId is processed each time it arrives
     When a raw booking "BKG-19" with origin "Mumbai" and destination "Pune" is published twice
@@ -538,7 +540,7 @@ Feature: City enrichment before publishing to TMS
 | BKG-14 | `""` / `Mumbai` | flagged | `MISSING_ORIGIN_CITY`, distinct from unmatched |
 | BKG-15 | `Pn` / `Mumbai` | flagged | the distance cap is enforced exactly |
 | BKG-16/17 | `{not json`, then valid | flagged, then enriched | **processor never throws** |
-| BKG-18 | `Mumbai` / `Warsaw` | flagged | message key is the bookingId |
+| BKG-18 + BKG-20 | `Mumbai`/`Warsaw`, then `Mumbi`/`Pune` | flagged, enriched | message key is the bookingId on **both** output topics |
 | BKG-19 | published twice | enriched ×2 | no accidental de-duplication |
 
 Nearly every scenario also asserts the negative — "no booking X appears on
@@ -601,15 +603,6 @@ These numbers describe an in-memory queue with synchronous delivery, so they
 measure the enrichment path and JSON binding — not Kafka. They are a regression
 signal for "did this change make matching dramatically slower", not a capacity
 estimate for the real service.
-
-### Known coverage gap
-
-No scenario asserts the message key on `booking.enriched`; BKG-18 covers only
-`booking.flagged`, while SPEC §2 mandates `bookingId` as the key on all three
-topics. Closing this needs a new scenario, which is a change to the locked
-feature file and therefore a decision for the spec owner.
-
----
 
 ## Flag reasons (SPEC §6)
 

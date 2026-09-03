@@ -44,12 +44,33 @@ public class AssertionSteps {
         assertThat(messagesFor(topic, bookingId)).hasSize(count);
     }
 
+    /**
+     * Locates the message by the bookingId <em>inside its payload</em>, then
+     * asserts the key. Finding it by key and then asserting the key would be
+     * very nearly tautological; this way the key is checked against the
+     * booking's own identity.
+     */
     @Then("the message for {string} on {string} has key {string}")
     public void theMessageHasKey(String bookingId, String topic, String expectedKey) {
-        assertThat(messagesFor(topic, bookingId))
-                .singleElement()
-                .extracting(Message::key)
+        List<Message> matches = context.bus().consume(topic).stream()
+                .filter(message -> bookingId.equals(payloadBookingId(message)))
+                .toList();
+
+        assertThat(matches)
+                .as("messages on %s whose payload bookingId is %s", topic, bookingId)
+                .hasSize(1);
+        assertThat(matches.get(0).key())
+                .as("key of the message carrying %s", bookingId)
                 .isEqualTo(expectedKey);
+    }
+
+    /** Topic-agnostic: enriched and flagged payloads both carry bookingId. */
+    private static String payloadBookingId(Message message) {
+        try {
+            return JsonSupport.mapper().readTree(message.payload()).path("bookingId").asText(null);
+        } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
+            return null;
+        }
     }
 
     // --- enriched content -----------------------------------------------
