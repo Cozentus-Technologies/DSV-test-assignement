@@ -17,7 +17,7 @@ only consumer, and its output lands on exactly one of the two output topics befo
 `booking.enriched` reaches TMS.
 
 ```mermaid
-flowchart LR
+flowchart TD
     Prod(["Producer"]) -->|"publish(bookingId, payload)"| RAW["booking.raw"]
     RAW --> EP["EnrichmentProcessor"]
     EP -->|"origin and destination matched"| ENR["booking.enriched"]
@@ -44,16 +44,16 @@ candidate-count outcomes.
 flowchart TD
     A["Input value"] --> B{"Missing, empty, or<br/>whitespace-only?"}
     B -->|yes| B1["MISSING_*_CITY"]
-    B -->|no| C["Normalise: trim, collapse<br/>internal whitespace, case-fold"]
+    B -->|no| C["Normalise: trim, collapse<br/>whitespace, case-fold"]
     C --> D{"Equals a normalised<br/>reference name?"}
-    D -->|yes| D1["Match, confidence 1.0<br/>(short-circuit — steps 4 and 5 not reached)"]
-    D -->|no| E["Build comparison set per reference:<br/>normalised full name + each<br/>whitespace-separated token (if multi-word)"]
-    E --> F["Gate 1 - Levenshtein distance cap:<br/>1 if length(c) &lt;= 6, else 2<br/>(lengths of the normalised string)"]
-    F --> G["Gate 2 - JaroWinkler >= 0.85<br/>(highest score over the comparison set)"]
+    D -->|yes| D1["Match, confidence 1.0<br/>short-circuit"]
+    D -->|no| E["Build comparison set:<br/>full name + tokens"]
+    E --> F["Gate 1 — Levenshtein cap:<br/>1 if len &lt;= 6, else 2"]
+    F --> G["Gate 2 — JaroWinkler >= 0.85<br/>highest over the set"]
     G --> H{"Surviving<br/>candidate count"}
     H -->|0| H0["No match:<br/>UNMATCHED_*_CITY"]
     H -->|1| H1["Match: canonical name<br/>+ confidence"]
-    H -->|"2+"| H2["Ambiguous:<br/>AMBIGUOUS_*_CITY<br/>+ candidate list, reference-file order"]
+    H -->|"2+"| H2["Ambiguous:<br/>AMBIGUOUS_*_CITY<br/>+ candidates, file order"]
 ```
 
 Exact match short-circuiting (step 3) is what guarantees an input equal to one
@@ -122,10 +122,8 @@ flowchart BT
     ENRICH -.->|"forbidden"| BUS
     ENRICH -.->|"forbidden"| PROCESSOR
 
-    LEGEND["dashed red = forbidden dependency<br/>(CLAUDE.md #3 / SPEC §7)"]
-
+    %% Links 8-11 are the forbidden edges (CLAUDE.md #3 / SPEC 7).
     linkStyle 8,9,10,11 stroke:#c00,stroke-width:2px,stroke-dasharray: 5 5;
-    style LEGEND fill:#fee,stroke:#c00,color:#900
 ```
 
 `CityMatcher` and `BookingEnricher` have no dependency on `bus/` or `processor/`
@@ -362,23 +360,22 @@ gate CLAUDE.md requires between each one. Task 1 (scaffold, matcher,
 `CityMatcher`, `CityMatcherTest`) is complete and green; tasks 2-7 are pending.
 
 ```mermaid
-flowchart LR
-    T1["Task 1<br/>Scaffold + matcher"]
-    G1{{"mvn -q verify"}}
-    T2["Task 2<br/>Enricher"]
-    G2{{"mvn -q verify"}}
-    T3["Task 3<br/>Bus + processor"]
-    G3{{"mvn -q verify"}}
-    T4["Task 4<br/>BDD feature + steps"]
-    G4{{"mvn -q verify"}}
-    T5["Task 5<br/>Sample data"]
-    G5{{"mvn -q verify"}}
-    T6["Task 6<br/>Bulk profile"]
-    G6{{"mvn -q verify<br/>+ mvn -q verify -Pbulk"}}
-    T7["Task 7<br/>README"]
-    G7{{"mvn -q verify"}}
+flowchart TD
+    T1["Task 1 — Scaffold + matcher"]
+    T2["Task 2 — Enricher"]
+    T3["Task 3 — Bus + processor"]
+    T4["Task 4 — BDD feature + steps"]
+    T5["Task 5 — Sample data"]
+    T6["Task 6 — Bulk profile"]
+    T7["Task 7 — README"]
 
-    T1 --> G1 --> T2 --> G2 --> T3 --> G3 --> T4 --> G4 --> T5 --> G5 --> T6 --> G6 --> T7 --> G7
+    T1 -->|"mvn -q verify"| T2
+    T2 -->|"mvn -q verify"| T3
+    T3 -->|"mvn -q verify"| T4
+    T4 -->|"mvn -q verify"| T5
+    T5 -->|"mvn -q verify"| T6
+    T6 -->|"mvn -q verify AND -Pbulk"| T7
+    T7 -->|"mvn -q verify"| DONE(["Definition of done — SPEC 10"])
 
     classDef done fill:#dfd,stroke:#2a2,color:#141;
     classDef pending fill:#eee,stroke:#999,color:#333;
@@ -417,6 +414,144 @@ Labelling by re-running `CityMatcher` (step 4, SPEC §9) — instead of assuming
 contract cannot drift apart: a `recoverable` corruption that happens to destroy a
 name still lands in the flagged oracle, because the matcher, not the bucket name,
 decides the truth.
+
+---
+
+## 11. Test plan
+
+Testing is **BDD-first**: the Gherkin feature file in SPEC §8.2 is the contract,
+and it is never edited to make code pass (CLAUDE.md #1). The other three layers
+exist to support it — unit tests pin the algorithm's edges, the sample proves a
+realistic distribution, and the bulk run proves the invariants hold at volume.
+
+| Layer | Tool | What it proves | Gate | Status |
+|---|---|---|---|---|
+| Unit | JUnit 5 + AssertJ | Every SPEC §5 sanity-table row and every SPEC §6 reason, no bus | `mvn -q verify` | **31 tests green** (task 1) |
+| **BDD** | **Cucumber-JVM 7** | **End-to-end routing through the bus matches the 11 agreed scenarios** | `mvn -q verify` | pending (task 4) |
+| Data-driven | Cucumber + committed JSONL | Behaviour holds over a 200-row reproducible dataset vs. its oracle | `mvn -q verify` | pending (task 5) |
+| Bulk | JUnit `@Tag("bulk")` | Aggregate invariants and throughput at 20 000 / 30 000 | `mvn -q verify -Pbulk` | pending (task 6) |
+
+Reports: Cucumber HTML + JSON to `target/cucumber` (SPEC §10).
+
+**Determinism.** Fixed seeds, a synchronous bus, no sleeps, no Awaitility, no
+timeouts (CLAUDE.md #7). Because subscribers run inside `publish`, a negative
+assertion — "no booking X appears on `booking.enriched`" — is exact rather than
+a race against a wait.
+
+---
+
+## 12. BDD — the feature file
+
+`src/test/resources/features/city_enrichment.feature`, reproduced from SPEC §8.2.
+11 scenario declarations; the outline's 5 examples make **15 executable scenarios**.
+
+```gherkin
+Feature: City enrichment before publishing to TMS
+
+  Background:
+    Given the reference cities are Mumbai, New Delhi, Bangalore, Chennai, Kolkata, Pune, Hyderabad, Ahmedabad
+    And the enrichment processor is consuming from "booking.raw"
+
+  Scenario Outline: Correctable cities are enriched and forwarded
+    When a raw booking "<id>" with origin "<origin>" and destination "<destination>" is published
+    Then a booking "<id>" is received on "booking.enriched"
+    And its origin is "<expectedOrigin>" and destination is "<expectedDestination>"
+    And the enrichment metadata retains original values "<origin>" and "<destination>"
+    And shipper, mode and requestedDate are unchanged
+    And no booking "<id>" appears on "booking.flagged"
+    Examples:
+      | id    | origin        | destination | expectedOrigin | expectedDestination |
+      | BKG-1 | Mumbi         | now delhi   | Mumbai         | New Delhi           |
+      | BKG-2 | bangalor      | CHENNAI     | Bangalore      | Chennai             |
+      | BKG-3 |   pune        | Hyderabad   | Pune           | Hyderabad           |
+      | BKG-4 | New   Delhi   | Ahmedabd    | New Delhi      | Ahmedabad           |
+      | BKG-5 | kolkatta      | Mumbai      | Kolkata        | Mumbai              |
+
+  Scenario: Unmatched origin is flagged, not forwarded
+    When a raw booking "BKG-9" with origin "Warsaw" and destination "Mumbai" is published
+    Then a booking "BKG-9" is received on "booking.flagged"
+    And its reasons are exactly "UNMATCHED_ORIGIN_CITY"
+    And the flagged field "origin" has value "Warsaw" and no candidates
+    And no booking "BKG-9" appears on "booking.enriched"
+
+  Scenario: Unmatched destination is flagged, not forwarded
+    When a raw booking "BKG-10" with origin "Mumbai" and destination "Lisbon" is published
+    Then a booking "BKG-10" is received on "booking.flagged"
+    And its reasons are exactly "UNMATCHED_DESTINATION_CITY"
+    And no booking "BKG-10" appears on "booking.enriched"
+
+  Scenario: Both cities unmatched produces both reasons
+    When a raw booking "BKG-11" with origin "Warsaw" and destination "Lisbon" is published
+    Then a booking "BKG-11" is received on "booking.flagged"
+    And its reasons are exactly "UNMATCHED_ORIGIN_CITY", "UNMATCHED_DESTINATION_CITY"
+    And no booking "BKG-11" appears on "booking.enriched"
+
+  Scenario: One valid city does not rescue an invalid one
+    When a raw booking "BKG-12" with origin "Mumbai" and destination "Warsaw" is published
+    Then no booking "BKG-12" appears on "booking.enriched"
+
+  Scenario: Ambiguous match is flagged with candidates
+    Given the reference cities additionally include "Delhi"
+    When a raw booking "BKG-13" with origin "Delh" and destination "Mumbai" is published
+    Then a booking "BKG-13" is received on "booking.flagged"
+    And its reasons are exactly "AMBIGUOUS_ORIGIN_CITY"
+    And the flagged field "origin" has candidates "New Delhi", "Delhi"
+
+  Scenario: Missing city is flagged
+    When a raw booking "BKG-14" with origin "" and destination "Mumbai" is published
+    Then a booking "BKG-14" is received on "booking.flagged"
+    And its reasons are exactly "MISSING_ORIGIN_CITY"
+
+  Scenario: Typo beyond threshold on a short name is flagged
+    When a raw booking "BKG-15" with origin "Pn" and destination "Mumbai" is published
+    Then a booking "BKG-15" is received on "booking.flagged"
+    And its reasons are exactly "UNMATCHED_ORIGIN_CITY"
+
+  Scenario: Malformed message is flagged and processing continues
+    When the raw payload "{not json" with key "BKG-16" is published to "booking.raw"
+    And a raw booking "BKG-17" with origin "Mumbai" and destination "Pune" is published
+    Then a message with key "BKG-16" is received on "booking.flagged" with reason "MALFORMED_MESSAGE"
+    And a booking "BKG-17" is received on "booking.enriched"
+
+  Scenario: Message key is the bookingId on every topic
+    When a raw booking "BKG-18" with origin "Mumbai" and destination "Warsaw" is published
+    Then the message for "BKG-18" on "booking.flagged" has key "BKG-18"
+
+  Scenario: Duplicate bookingId is processed each time it arrives
+    When a raw booking "BKG-19" with origin "Mumbai" and destination "Pune" is published twice
+    Then exactly 2 bookings "BKG-19" are received on "booking.enriched"
+```
+
+### Scenario coverage matrix
+
+| Scenario | Input | Expected topic | Proves |
+|---|---|---|---|
+| Outline BKG-1 | `Mumbi` / `now delhi` | enriched | typo correction, both fields |
+| Outline BKG-2 | `bangalor` / `CHENNAI` | enriched | typo + case-folding |
+| Outline BKG-3 | `pune` / `Hyderabad` | enriched | already-canonical passes through |
+| Outline BKG-4 | `New   Delhi` / `Ahmedabd` | enriched | internal whitespace collapse |
+| Outline BKG-5 | `kolkatta` / `Mumbai` | enriched | doubled char, long-name cap |
+| BKG-9 | `Warsaw` / `Mumbai` | flagged | `UNMATCHED_ORIGIN_CITY`, empty candidates |
+| BKG-10 | `Mumbai` / `Lisbon` | flagged | `UNMATCHED_DESTINATION_CITY` |
+| BKG-11 | `Warsaw` / `Lisbon` | flagged | two reasons, ordered origin then destination |
+| BKG-12 | `Mumbai` / `Warsaw` | flagged | whole-booking rule — no half-enrichment |
+| BKG-13 | `Delh` (+`Delhi`) | flagged | `AMBIGUOUS_ORIGIN_CITY`, candidates in file order |
+| BKG-14 | `""` / `Mumbai` | flagged | `MISSING_ORIGIN_CITY`, distinct from unmatched |
+| BKG-15 | `Pn` / `Mumbai` | flagged | the distance cap is enforced exactly |
+| BKG-16/17 | `{not json`, then valid | flagged, then enriched | **processor never throws** |
+| BKG-18 | `Mumbai` / `Warsaw` | flagged | message key is the bookingId |
+| BKG-19 | published twice | enriched ×2 | no accidental de-duplication |
+
+Nearly every scenario also asserts the negative — "no booking X appears on
+`booking.enriched`" — checking the one-topic-per-booking invariant from both
+directions.
+
+### Known coverage gap
+
+No scenario asserts the message key on `booking.enriched`; BKG-18 covers only
+`booking.flagged`, while SPEC §2 mandates `bookingId` as the key on all three
+topics. Closing this needs a new scenario, which is a change to the locked
+feature file and therefore a decision for the spec owner.
 
 ---
 
