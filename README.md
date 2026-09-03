@@ -52,6 +52,83 @@ On macOS with Homebrew, `brew install openjdk@21` is keg-only, so its path is
 
 ---
 
+## Seeing it work
+
+`EnrichmentDemo` runs a booking through a real processor and prints where it
+landed. It is a developer tool — it asserts nothing, and the test suite remains
+where behaviour is actually verified.
+
+```bash
+mvn -q compile
+mvn -q exec:java -Dexec.args='--origin Mumbi --destination "now delhi"'
+```
+
+```
+in   origin="Mumbi"  destination="now delhi"
+
+out  booking.enriched
+
+{
+  "bookingId" : "BKG-DEMO",
+  "origin" : "Mumbai",
+  "destination" : "New Delhi",
+  ...
+  "enrichment" : {
+    "originalOrigin" : "Mumbi",
+    "originalDestination" : "now delhi",
+    "originConfidence" : 0.9666666666666667,
+    "destinationConfidence" : 0.9333333333333333
+  }
+}
+```
+
+A city that cannot be matched goes the other way:
+
+```bash
+mvn -q exec:java -Dexec.args='--origin Warsaw --destination Mumbai'
+```
+
+```
+out  booking.flagged
+
+{ "reasons" : [ "UNMATCHED_ORIGIN_CITY" ],
+  "fields"  : [ { "field" : "origin", "value" : "Warsaw", "candidates" : [ ] } ],
+  "original": { ...the raw booking, untouched... } }
+```
+
+Replay a whole file:
+
+```bash
+mvn -q exec:java -Dexec.args='--file data/bookings-sample.jsonl'
+```
+
+```
+rows published    200
+
+  booking.enriched   93
+  booking.flagged    107
+
+  UNMATCHED_ORIGIN_CITY        24
+  UNMATCHED_DESTINATION_CITY   43
+  MISSING_ORIGIN_CITY          21
+  MISSING_DESTINATION_CITY     22
+  MALFORMED_MESSAGE            10
+```
+
+`--cities "Mumbai,New Delhi,...,Delhi"` overrides the reference list, which is how
+to see an ambiguous match:
+
+```bash
+mvn -q exec:java -Dexec.args='--origin Delh --destination Mumbai \
+  --cities "Mumbai,New Delhi,Bangalore,Chennai,Kolkata,Pune,Hyderabad,Ahmedabad,Delhi"'
+```
+
+> **`BookingLoader` is not this.** It streams a file into a bus with nothing
+> attached to consume it, so it publishes and counts but enriches nothing. Use
+> `EnrichmentDemo --file` to see enrichment happen.
+
+---
+
 ## What gets tested
 
 | Layer | Tool | What it proves |
@@ -129,7 +206,8 @@ Larger files are git-ignored; only the 200-row sample is committed.
 
 ```bash
 mvn -q compile
-mvn -q exec:java -Dexec.args="--count 200 --seed 42 --out data/bookings-sample.jsonl"
+mvn -q exec:java -Dexec.mainClass=com.cozentus.enrichment.tools.BookingDataGenerator \
+  -Dexec.args="--count 200 --seed 42 --out data/bookings-sample.jsonl"
 ```
 
 Same seed, byte-identical output. Regenerating with the committed seed should
@@ -139,12 +217,13 @@ changed and the diff shows you exactly what.
 ### Generate a larger set
 
 ```bash
-mvn -q exec:java -Dexec.args="--count 20000 --seed 42 \
-  --out data/bookings-20k.jsonl --mix recoverable=70,flaggable=25,malformed=5"
+mvn -q exec:java -Dexec.mainClass=com.cozentus.enrichment.tools.BookingDataGenerator \
+  -Dexec.args="--count 20000 --seed 42 --out data/bookings-20k.jsonl \
+               --mix recoverable=70,flaggable=25,malformed=5"
 ```
 
-The generator's main class and classpath scope are preset in `pom.xml`, so only
-`-Dexec.args` is needed.
+`exec:java` defaults to `EnrichmentDemo` (see below), so the generator needs its
+main class named explicitly. The classpath scope is preset either way.
 
 | Flag | Default | Meaning |
 |---|---|---|

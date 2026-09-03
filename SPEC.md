@@ -139,7 +139,7 @@ src/main/java/com/cozentus/enrichment/
 ├── enrich/       BookingEnricher                    ← pure: Booking -> EnrichedBooking | FlaggedBooking
 ├── bus/          MessageBus (interface), Message, InMemoryMessageBus
 ├── processor/    EnrichmentProcessor                ← only class that knows topic names
-└── tools/        BookingDataGenerator, BookingLoader
+└── tools/        BookingDataGenerator, BookingLoader, EnrichmentDemo
 ```
 
 Rules:

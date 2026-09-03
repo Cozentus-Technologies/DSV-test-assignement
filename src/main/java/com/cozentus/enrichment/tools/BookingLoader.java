@@ -82,6 +82,8 @@ public final class BookingLoader {
         }
         int published = load(file, topic, bus);
         System.out.printf("Published %,d rows to %s%n", published, topic);
+        System.out.println("No consumer is attached, so nothing was enriched. "
+                + "Use EnrichmentDemo --file to run a file through a processor.");
         return 0;
     }
 }

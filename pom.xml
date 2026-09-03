@@ -113,7 +113,7 @@
         <version>${exec.version}</version>
         <configuration>
           <classpathScope>runtime</classpathScope>
-          <mainClass>com.cozentus.enrichment.tools.BookingDataGenerator</mainClass>
+          <mainClass>com.cozentus.enrichment.tools.EnrichmentDemo</mainClass>
         </configuration>
       </plugin>
       <plugin>
