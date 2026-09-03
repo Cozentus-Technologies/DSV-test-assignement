@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    name: Build and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: temurin
+          cache: maven
+
+      # The gate from CLAUDE.md. Unit tests, all Cucumber scenarios and,
+      # from task 5, the committed 200-row sample.
+      - name: mvn verify
+        run: mvn -B verify
+
+      - name: Cucumber report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cucumber-report
+          path: target/cucumber/
+          if-no-files-found: error
+
+      - name: Coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-coverage
+          path: target/site/jacoco/
+          if-no-files-found: warn
+
+      - name: Test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-reports
+          path: target/surefire-reports/
+          if-no-files-found: warn
+
+  bulk:
+    name: Bulk (20k / 30k)
+    # Manual for now; becomes meaningful once task 6 lands the @Tag("bulk") test.
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        count: [20000, 30000]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: temurin
+          cache: maven
+
+      - name: mvn verify -Pbulk (${{ matrix.count }})
+        run: mvn -B verify -Pbulk -Dbulk.count=${{ matrix.count }} -Dbulk.seed=42

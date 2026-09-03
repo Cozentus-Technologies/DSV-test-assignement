@@ -15,8 +15,9 @@ import org.junit.platform.suite.api.Suite;
 @SelectClasspathResource("features")
 @ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "com.cozentus.enrichment")
 @ConfigurationParameter(key = PLUGIN_PROPERTY_NAME,
-        value = "pretty,"
-              + "html:target/cucumber/city-enrichment.html,"
+        // No "pretty" plugin: it writes every step to stdout, which makes the
+        // mvn -q verify gate noisy. SPEC 10 asks for HTML and JSON only.
+        value = "html:target/cucumber/city-enrichment.html,"
               + "json:target/cucumber/city-enrichment.json")
 @ConfigurationParameter(key = PLUGIN_PUBLISH_QUIET_PROPERTY_NAME, value = "true")
 public class RunCucumberTest {
