@@ -96,7 +96,29 @@ out  booking.flagged
   "original": { ...the raw booking, untouched... } }
 ```
 
-Replay a whole file:
+Replay a whole file. `data/bookings-demo.jsonl` is twelve hand-written rows, one
+per outcome, meant to be read rather than generated:
+
+```bash
+mvn -q exec:java -Dexec.args='--file data/bookings-demo.jsonl'
+```
+
+| Row | origin / destination | Lands as |
+|---|---|---|
+| `BKG-D01` | `Mumbi` / `now delhi` | enriched — typo in both |
+| `BKG-D02` | `MUMBAI` / `chennai` | enriched — casing only |
+| `BKG-D03` | `  New   Delhi  ` / `Bangalor` | enriched — trim, collapse, typo |
+| `BKG-D04` | `kolkatta` / `Ahmedabd` | enriched — doubled and dropped letters |
+| `BKG-D05` | `Delh` / `Pune` | enriched — reached `New Delhi` via its token |
+| `BKG-D06` | `Warsaw` / `Mumbai` | flagged — `UNMATCHED_ORIGIN_CITY` |
+| `BKG-D07` | `Mumbai` / `Lisbon` | flagged — `UNMATCHED_DESTINATION_CITY` |
+| `BKG-D08` | `Warsaw` / `Lisbon` | flagged — both reasons, origin first |
+| `BKG-D09` | `""` / `Mumbai` | flagged — `MISSING_ORIGIN_CITY` |
+| `BKG-D10` | `Mumbai` / `"   "` | flagged — `MISSING_DESTINATION_CITY`, whitespace is missing |
+| `BKG-D11` | `Pn` / `Mumbai` | flagged — two edits on a four-letter name is past the cap |
+| `BKG-D12` | truncated JSON | flagged — `MALFORMED_MESSAGE` |
+
+Five enriched, seven flagged. Or the 200-row generated sample:
 
 ```bash
 mvn -q exec:java -Dexec.args='--file data/bookings-sample.jsonl'

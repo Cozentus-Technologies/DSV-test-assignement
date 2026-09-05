@@ -1,0 +1,12 @@
+{"bookingId":"BKG-D01","shipper":"ABC Logistics","origin":"Mumbi","destination":"now delhi","mode":"ROAD","requestedDate":"2026-09-05"}
+{"bookingId":"BKG-D02","shipper":"Vertex Freight","origin":"MUMBAI","destination":"chennai","mode":"RAIL","requestedDate":"2026-09-11"}
+{"bookingId":"BKG-D03","shipper":"Northwind Cargo","origin":"  New   Delhi  ","destination":"Bangalor","mode":"AIR","requestedDate":"2026-09-18"}
+{"bookingId":"BKG-D04","shipper":"Meridian Shipping","origin":"kolkatta","destination":"Ahmedabd","mode":"OCEAN","requestedDate":"2026-09-22"}
+{"bookingId":"BKG-D05","shipper":"Solaris Transport","origin":"Delh","destination":"Pune","mode":"ROAD","requestedDate":"2026-09-25"}
+{"bookingId":"BKG-D06","shipper":"ABC Logistics","origin":"Warsaw","destination":"Mumbai","mode":"AIR","requestedDate":"2026-10-01"}
+{"bookingId":"BKG-D07","shipper":"Vertex Freight","origin":"Mumbai","destination":"Lisbon","mode":"ROAD","requestedDate":"2026-10-04"}
+{"bookingId":"BKG-D08","shipper":"Northwind Cargo","origin":"Warsaw","destination":"Lisbon","mode":"RAIL","requestedDate":"2026-10-09"}
+{"bookingId":"BKG-D09","shipper":"Meridian Shipping","origin":"","destination":"Mumbai","mode":"OCEAN","requestedDate":"2026-10-12"}
+{"bookingId":"BKG-D10","shipper":"Solaris Transport","origin":"Mumbai","destination":"   ","mode":"ROAD","requestedDate":"2026-10-15"}
+{"bookingId":"BKG-D11","shipper":"ABC Logistics","origin":"Pn","destination":"Mumbai","mode":"AIR","requestedDate":"2026-10-20"}
+{"bookingId":"BKG-D12","shipper":"Vertex Freight","origin":"Mumbai","destination":"Pune
