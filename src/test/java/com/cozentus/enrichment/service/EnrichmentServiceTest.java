@@ -122,6 +122,21 @@ class EnrichmentServiceTest {
         if (service != null) {
             service.close();
         }
+        deleteProvisionedTopics();
+    }
+
+    /** Best effort: a leftover topic is untidy, not a test failure. */
+    private void deleteProvisionedTopics() {
+        if (raw == null) {
+            return;
+        }
+        Properties properties = new Properties();
+        properties.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, BROKER);
+        try (Admin admin = Admin.create(properties)) {
+            admin.deleteTopics(List.of(raw, enriched, flagged)).all().get();
+        } catch (Exception ignored) {
+            // The broker accumulating a stray topic must not fail a green run.
+        }
     }
 
     @Test
