@@ -1,6 +1,7 @@
 package com.cozentus.enrichment.bus;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 /**
@@ -11,9 +12,19 @@ import java.util.function.Consumer;
  */
 public interface MessageBus {
 
-    void publish(String topic, String key, String payload);
+    void publish(String topic, String key, String payload, Map<String, String> headers);
 
-    /** Snapshot of every message published to the topic so far. */
+    /** Publish with no headers. */
+    default void publish(String topic, String key, String payload) {
+        publish(topic, key, payload, Map.of());
+    }
+
+    /**
+     * Snapshot of every message published to the topic so far.
+     *
+     * @throws UnsupportedOperationException on implementations backed by a real
+     *         broker, where a consumer group has a position rather than a history
+     */
     List<Message> consume(String topic);
 
     /** Handlers see only messages published after subscribing; there is no replay. */

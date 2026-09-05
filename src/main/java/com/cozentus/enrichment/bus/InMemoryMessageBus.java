@@ -27,9 +27,9 @@ public final class InMemoryMessageBus implements MessageBus {
     private final Map<String, Queue<Consumer<Message>>> subscribers = new ConcurrentHashMap<>();
 
     @Override
-    public void publish(String topic, String key, String payload) {
+    public void publish(String topic, String key, String payload, Map<String, String> headers) {
         long offset = offsets.computeIfAbsent(topic, t -> new AtomicLong()).getAndIncrement();
-        Message message = new Message(topic, key, payload, offset, Instant.now());
+        Message message = new Message(topic, key, payload, offset, Instant.now(), headers);
 
         // Recorded before delivery, so a throwing subscriber cannot lose the message.
         topics.computeIfAbsent(topic, t -> new ConcurrentLinkedQueue<>()).add(message);
