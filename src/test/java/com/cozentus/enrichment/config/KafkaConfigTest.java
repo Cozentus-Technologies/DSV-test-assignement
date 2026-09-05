@@ -95,6 +95,21 @@ class KafkaConfigTest {
     }
 
     @Test
+    @DisplayName("port 0 is accepted: it means bind an ephemeral port")
+    void ephemeralPortIsAllowed() {
+        assertThat(resolve(new String[]{"--readiness.port=0"}, Map.of()).readinessPort()).isZero();
+    }
+
+    @Test
+    @DisplayName("a port outside the valid range is rejected")
+    void outOfRangePortIsRejected() {
+        assertThatThrownBy(() -> resolve(new String[]{"--readiness.port=70000"}, Map.of()))
+                .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> resolve(new String[]{"--readiness.port=-1"}, Map.of()))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
     @DisplayName("an unknown --key=value argument is rejected rather than silently ignored")
     void unknownArgumentIsRejected() {
         assertThatThrownBy(() -> resolve(new String[]{"--kafka.bootstrp.servers=typo:9092"}, Map.of()))

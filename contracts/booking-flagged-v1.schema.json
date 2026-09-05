@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cozentus.com/contracts/booking-flagged-v1.schema.json",
+  "title": "Booking (flagged) v1",
+  "description": "The payload published on the booking.flagged topic when a booking could not be confidently enriched, or never parsed at all. Derived verbatim from SPEC.md section 4 (\"Flagged booking (booking.flagged)\") and section 6 (\"Flag reasons\").",
+  "type": "object",
+  "properties": {
+    "bookingId": {
+      "type": ["string", "null"],
+      "description": "Unchanged from booking.raw for a normally-flagged booking. null for MALFORMED_MESSAGE, since the payload never parsed far enough to read an id (SPEC section 4); the Kafka message key in that case is the Kafka key if present, else the literal string \"UNKNOWN\"."
+    },
+    "reasons": {
+      "type": "array",
+      "description": "Every reason this booking was flagged, ordered origin then destination when both cities fail (SPEC section 6). Exactly one entry, MALFORMED_MESSAGE, when the payload never parsed.",
+      "items": {
+        "$ref": "#/$defs/flagReason"
+      },
+      "minItems": 1
+    },
+    "fields": {
+      "type": "array",
+      "description": "Per-field detail, one entry per failing field. Empty for MALFORMED_MESSAGE (SPEC section 4), since there is no parsed booking to point a field at.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string",
+            "enum": ["origin", "destination"],
+            "description": "Which booking field this entry describes."
+          },
+          "reason": {
+            "$ref": "#/$defs/flagReason"
+          },
+          "value": {
+            "type": ["string", "null"],
+            "description": "The raw, uncorrected value that failed to match, exactly as supplied. May be null when the source field itself was null (SPEC section 5, step 1: missing is null, empty, or whitespace-only)."
+          },
+          "candidates": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Canonical candidate names, in reference-file order (SPEC section 5), when the reason is an AMBIGUOUS_* case. Empty for UNMATCHED_* and MISSING_* cases."
+          }
+        },
+        "required": ["field", "reason", "value", "candidates"],
+        "additionalProperties": false
+      }
+    },
+    "original": {
+      "description": "The raw booking, untouched, so it can be corrected and replayed (SPEC section 4). For MALFORMED_MESSAGE this is instead the raw payload string, since it never parsed into a booking object.",
+      "oneOf": [
+        {
+          "type": "object",
+          "description": "The raw booking payload (see booking-raw-v1.schema.json) exactly as received."
+        },
+        {
+          "type": "string",
+          "description": "The unparsed raw payload, verbatim, for MALFORMED_MESSAGE."
+        }
+      ]
+    }
+  },
+  "required": ["bookingId", "reasons", "fields", "original"],
+  "additionalProperties": false,
+  "$defs": {
+    "flagReason": {
+      "type": "string",
+      "enum": [
+        "UNMATCHED_ORIGIN_CITY",
+        "UNMATCHED_DESTINATION_CITY",
+        "AMBIGUOUS_ORIGIN_CITY",
+        "AMBIGUOUS_DESTINATION_CITY",
+        "MISSING_ORIGIN_CITY",
+        "MISSING_DESTINATION_CITY",
+        "MALFORMED_MESSAGE"
+      ],
+      "description": "The seven flag reasons defined in SPEC.md section 6."
+    }
+  }
+}

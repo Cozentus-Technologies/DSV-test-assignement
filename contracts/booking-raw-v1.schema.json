@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cozentus.com/contracts/booking-raw-v1.schema.json",
+  "title": "Booking (raw) v1",
+  "description": "The payload accepted on the booking.raw topic, exactly as produced by the upstream booking system before enrichment. Field names and types are derived verbatim from SPEC.md section 4 (\"Raw booking (booking.raw)\"). This is the producer's published contract for what the enrichment service accepts.",
+  "type": "object",
+  "properties": {
+    "bookingId": {
+      "type": "string",
+      "description": "Unique booking identifier. Also used as the Kafka message key on all three topics (SPEC section 3/4). Example: \"BKG-12345\". SPEC.md does not specify a format/pattern beyond \"string\", so none is enforced here."
+    },
+    "shipper": {
+      "type": "string",
+      "description": "Free-text shipper/customer name, e.g. \"ABC Logistics\"."
+    },
+    "origin": {
+      "type": "string",
+      "description": "Origin city as supplied by the upstream system, uncorrected (may be misspelled, mis-cased, or blank/whitespace-only). Matched against the reference city list per SPEC section 5."
+    },
+    "destination": {
+      "type": "string",
+      "description": "Destination city as supplied by the upstream system, uncorrected (may be misspelled, mis-cased, or blank/whitespace-only). Matched against the reference city list per SPEC section 5."
+    },
+    "mode": {
+      "type": "string",
+      "description": "Transport mode, e.g. \"ROAD\", \"RAIL\", \"AIR\", \"OCEAN\" (observed in sample data). SPEC.md section 4 does not constrain this to an enumerated set of values, so it is left as an open string here rather than inventing a closed list."
+    },
+    "requestedDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Requested booking date, ISO-8601 calendar date, e.g. \"2026-09-05\". SPEC.md shows this shape but does not state a format contract explicitly; \"format\": \"date\" is included as a non-enforced annotation consistent with every example in SPEC.md and the sample data."
+    }
+  },
+  "required": ["bookingId", "shipper", "origin", "destination", "mode", "requestedDate"],
+  "additionalProperties": false
+}

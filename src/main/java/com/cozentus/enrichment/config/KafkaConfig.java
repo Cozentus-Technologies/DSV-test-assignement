@@ -129,12 +129,14 @@ public final class KafkaConfig {
         String port = values.get(Setting.READINESS_PORT);
         try {
             int parsed = Integer.parseInt(port.trim());
-            if (parsed < 1 || parsed > 65535) {
+            // 0 is meaningful: bind an ephemeral port. The suite needs it when
+            // running more than one service instance at once.
+            if (parsed < 0 || parsed > 65535) {
                 throw new NumberFormatException();
             }
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(
-                    "readiness.port must be a port number between 1 and 65535, got: " + port);
+                    "readiness.port must be 0 for an ephemeral port, or 1-65535, got: " + port);
         }
     }
 

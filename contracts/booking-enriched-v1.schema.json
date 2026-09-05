@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cozentus.com/contracts/booking-enriched-v1.schema.json",
+  "title": "Booking (enriched) v1",
+  "description": "The payload published on the booking.enriched topic and consumed by TMS: all raw fields unchanged except origin/destination (which carry the matched canonical city name), plus a nested enrichment audit block. Derived verbatim from SPEC.md section 4 (\"Enriched booking (booking.enriched)\").",
+  "$comment": "CH-09 asked for a top-level \"status\": { \"enum\": [\"ENRICHED\"] } property so a flagged booking could never validate against this schema. That field does not exist in the payload: SPEC.md section 4 defines no `status` field, the enrichment outcome travels only as the Kafka header x-enrichment-status, and APP_CHANGE_SPEC.md section 3 explicitly forbids changing payload shapes in SPEC section 4. Inventing the field to satisfy CH-09 would itself be a spec violation. The same guarantee is achieved structurally instead: this schema sets additionalProperties=false and requires shipper, mode, requestedDate and enrichment (none of which a booking.flagged payload has), while booking-flagged-v1.schema.json requires reasons and fields (which this payload does not have) and likewise sets additionalProperties=false. A flagged payload therefore genuinely fails this schema's required/additionalProperties checks, and an enriched payload genuinely fails the flagged schema's, without a fabricated field.",
+  "type": "object",
+  "properties": {
+    "bookingId": {
+      "type": "string",
+      "description": "Unchanged from booking.raw. Also the Kafka message key (SPEC section 3)."
+    },
+    "shipper": {
+      "type": "string",
+      "description": "Unchanged from booking.raw."
+    },
+    "origin": {
+      "type": "string",
+      "description": "Canonical origin city name as matched by CityMatcher (SPEC section 5), e.g. \"Mumbai\". Casing matches src/main/resources/cities.json exactly (SPEC section 4)."
+    },
+    "destination": {
+      "type": "string",
+      "description": "Canonical destination city name as matched by CityMatcher (SPEC section 5), e.g. \"New Delhi\"."
+    },
+    "mode": {
+      "type": "string",
+      "description": "Unchanged from booking.raw."
+    },
+    "requestedDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Unchanged from booking.raw."
+    },
+    "enrichment": {
+      "type": "object",
+      "description": "Audit block recording what was originally supplied and how confident the match was (SPEC section 4). Confidence values are illustrative of the SPEC section 5 algorithm, not a fixed contract value.",
+      "properties": {
+        "originalOrigin": {
+          "type": "string",
+          "description": "The raw, uncorrected origin exactly as it arrived on booking.raw."
+        },
+        "originalDestination": {
+          "type": "string",
+          "description": "The raw, uncorrected destination exactly as it arrived on booking.raw."
+        },
+        "originConfidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Jaro-Winkler similarity backing the origin match (SPEC section 5), in the closed interval [0, 1]."
+        },
+        "destinationConfidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Jaro-Winkler similarity backing the destination match (SPEC section 5), in the closed interval [0, 1]."
+        }
+      },
+      "required": ["originalOrigin", "originalDestination", "originConfidence", "destinationConfidence"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["bookingId", "shipper", "origin", "destination", "mode", "requestedDate", "enrichment"],
+  "additionalProperties": false
+}

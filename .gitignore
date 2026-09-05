@@ -11,3 +11,6 @@ data/*.expected.json
 !data/bookings-sample.jsonl
 !data/bookings-sample.jsonl.expected.json
 !data/bookings-demo.jsonl
+
+# CH-02: shaded runnable jar is a build output
+city-enrichment.jar
