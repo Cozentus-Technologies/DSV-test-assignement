@@ -23,6 +23,11 @@
     <surefire.version>3.5.2</surefire.version>
     <jacoco.version>0.8.12</jacoco.version>
     <exec.version>3.5.0</exec.version>
+    <!-- The default for `mvn exec:java`. Declaring it as a property is what
+         lets -Dexec.mainClass override it; hardcoding it in the plugin block
+         made the override silently ignored, so the documented data-regeneration
+         command ran the demo instead and printed usage. -->
+    <exec.mainClass>com.cozentus.enrichment.tools.EnrichmentDemo</exec.mainClass>
     <kafka.version>3.9.0</kafka.version>
     <shade.version>3.6.0</shade.version>
 
@@ -121,7 +126,7 @@
         <version>${exec.version}</version>
         <configuration>
           <classpathScope>runtime</classpathScope>
-          <mainClass>com.cozentus.enrichment.tools.EnrichmentDemo</mainClass>
+          <mainClass>${exec.mainClass}</mainClass>
         </configuration>
       </plugin>
       <plugin>

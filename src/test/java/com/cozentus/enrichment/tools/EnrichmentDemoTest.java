@@ -2,6 +2,7 @@ package com.cozentus.enrichment.tools;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.cozentus.enrichment.JsonSupport;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
@@ -68,16 +69,28 @@ class EnrichmentDemoTest {
 
     @Test
     @DisplayName("replaying a file reports the split and totals")
-    void fileReplayReportsTheSplit() {
+    void fileReplayReportsTheSplit() throws Exception {
         int status = run("--file", "data/bookings-sample.jsonl");
 
         assertThat(status).isZero();
+
+        // Read the split from the committed oracle rather than restating it.
+        // Hardcoding the counts couples this test to one particular generated
+        // sample, so regenerating the data with a changed corruption mix breaks
+        // a test that has nothing to do with what changed.
+        var oracle = JsonSupport.mapper()
+                .readTree(java.nio.file.Files.readString(
+                        java.nio.file.Path.of("data/bookings-sample.jsonl.expected.json")));
+        int enriched = oracle.path("totals").path("enriched").asInt();
+        int flagged = oracle.path("totals").path("flagged").asInt();
+
         assertThat(output())
-                .contains("200")
+                .contains("rows published    200")
                 .contains("booking.enriched")
                 .contains("booking.flagged")
-                .contains("93")
-                .contains("107");
+                .contains(String.valueOf(enriched))
+                .contains(String.valueOf(flagged));
+        assertThat(enriched + flagged).as("oracle totals must account for every row").isEqualTo(200);
     }
 
     @Test

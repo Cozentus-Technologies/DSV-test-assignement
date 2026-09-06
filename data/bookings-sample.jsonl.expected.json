@@ -1,57 +1,57 @@
 {
   "totals" : {
-    "enriched" : 93,
-    "flagged" : 107,
+    "enriched" : 90,
+    "flagged" : 110,
     "byReason" : {
-      "UNMATCHED_ORIGIN_CITY" : 24,
-      "UNMATCHED_DESTINATION_CITY" : 43,
-      "MISSING_ORIGIN_CITY" : 21,
-      "MISSING_DESTINATION_CITY" : 22,
-      "MALFORMED_MESSAGE" : 10
+      "UNMATCHED_ORIGIN_CITY" : 40,
+      "UNMATCHED_DESTINATION_CITY" : 35,
+      "MISSING_ORIGIN_CITY" : 19,
+      "MISSING_DESTINATION_CITY" : 25,
+      "MALFORMED_MESSAGE" : 8
     }
   },
   "byId" : {
     "BKG-00000" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
+      "topic" : "booking.enriched",
+      "origin" : "Pune",
+      "destination" : "Ahmedabad",
+      "reasons" : [ ]
     },
     "BKG-00001" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
+      "topic" : "booking.enriched",
+      "origin" : "Bangalore",
+      "destination" : "Chennai",
+      "reasons" : [ ]
     },
     "BKG-00002" : {
       "topic" : "booking.enriched",
       "origin" : "Chennai",
-      "destination" : "Kolkata",
+      "destination" : "Chennai",
       "reasons" : [ ]
     },
     "BKG-00003" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
     },
     "BKG-00004" : {
-      "topic" : "booking.enriched",
-      "origin" : "Bangalore",
-      "destination" : "Hyderabad",
-      "reasons" : [ ]
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
     },
     "BKG-00005" : {
       "topic" : "booking.enriched",
       "origin" : "Kolkata",
-      "destination" : "New Delhi",
+      "destination" : "Ahmedabad",
       "reasons" : [ ]
     },
     "BKG-00006" : {
-      "topic" : "booking.enriched",
-      "origin" : "Bangalore",
-      "destination" : "Chennai",
-      "reasons" : [ ]
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
     },
     "BKG-00007" : {
       "topic" : "booking.flagged",
@@ -66,63 +66,63 @@
       "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
     },
     "BKG-00009" : {
+      "topic" : "booking.enriched",
+      "origin" : "Hyderabad",
+      "destination" : "Chennai",
+      "reasons" : [ ]
+    },
+    "BKG-00010" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "MISSING_DESTINATION_CITY" ]
-    },
-    "BKG-00010" : {
-      "topic" : "booking.enriched",
-      "origin" : "Pune",
-      "destination" : "Kolkata",
-      "reasons" : [ ]
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
     },
     "BKG-00011" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
+      "reasons" : [ "MISSING_ORIGIN_CITY" ]
     },
     "BKG-00012" : {
+      "topic" : "booking.enriched",
+      "origin" : "Pune",
+      "destination" : "Pune",
+      "reasons" : [ ]
+    },
+    "BKG-00013" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
-    },
-    "BKG-00013" : {
-      "topic" : "booking.enriched",
-      "origin" : "Mumbai",
-      "destination" : "Mumbai",
-      "reasons" : [ ]
+      "reasons" : [ "MISSING_DESTINATION_CITY" ]
     },
     "BKG-00014" : {
       "topic" : "booking.enriched",
-      "origin" : "Bangalore",
-      "destination" : "Ahmedabad",
+      "origin" : "Pune",
+      "destination" : "Chennai",
       "reasons" : [ ]
     },
     "BKG-00015" : {
-      "topic" : "booking.enriched",
-      "origin" : "Ahmedabad",
-      "destination" : "Ahmedabad",
-      "reasons" : [ ]
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "MISSING_DESTINATION_CITY" ]
     },
     "BKG-00016" : {
-      "topic" : "booking.enriched",
-      "origin" : "Ahmedabad",
-      "destination" : "Ahmedabad",
-      "reasons" : [ ]
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "MISSING_DESTINATION_CITY" ]
     },
     "BKG-00017" : {
-      "topic" : "booking.enriched",
-      "origin" : "Chennai",
-      "destination" : "Chennai",
-      "reasons" : [ ]
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
     },
     "BKG-00018" : {
       "topic" : "booking.enriched",
       "origin" : "New Delhi",
-      "destination" : "Bangalore",
+      "destination" : "Mumbai",
       "reasons" : [ ]
     },
     "BKG-00019" : {
@@ -138,15 +138,15 @@
       "reasons" : [ "MISSING_ORIGIN_CITY", "MISSING_DESTINATION_CITY" ]
     },
     "BKG-00021" : {
-      "topic" : "booking.enriched",
-      "origin" : "Kolkata",
-      "destination" : "Pune",
-      "reasons" : [ ]
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
     },
     "BKG-00022" : {
       "topic" : "booking.enriched",
-      "origin" : "New Delhi",
-      "destination" : "Ahmedabad",
+      "origin" : "Bangalore",
+      "destination" : "Pune",
       "reasons" : [ ]
     },
     "BKG-00023" : {
@@ -156,124 +156,124 @@
       "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
     },
     "BKG-00024" : {
-      "topic" : "booking.enriched",
-      "origin" : "Hyderabad",
-      "destination" : "Kolkata",
-      "reasons" : [ ]
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "MISSING_DESTINATION_CITY" ]
     },
     "BKG-00025" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "MISSING_DESTINATION_CITY" ]
+      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
     },
     "BKG-00026" : {
-      "topic" : "booking.enriched",
-      "origin" : "Kolkata",
-      "destination" : "Hyderabad",
-      "reasons" : [ ]
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
     },
     "BKG-00027" : {
       "topic" : "booking.enriched",
-      "origin" : "New Delhi",
+      "origin" : "Kolkata",
       "destination" : "Kolkata",
       "reasons" : [ ]
     },
     "BKG-00028" : {
-      "topic" : "booking.enriched",
-      "origin" : "Hyderabad",
-      "destination" : "Pune",
-      "reasons" : [ ]
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
     },
     "BKG-00029" : {
-      "topic" : "booking.enriched",
-      "origin" : "Kolkata",
-      "destination" : "Chennai",
-      "reasons" : [ ]
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "MISSING_DESTINATION_CITY" ]
     },
     "BKG-00030" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
     },
     "BKG-00031" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "MISSING_DESTINATION_CITY" ]
+      "reasons" : [ "MISSING_ORIGIN_CITY" ]
     },
     "BKG-00032" : {
-      "topic" : "booking.enriched",
-      "origin" : "Bangalore",
-      "destination" : "Bangalore",
-      "reasons" : [ ]
-    },
-    "BKG-00033" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "MISSING_ORIGIN_CITY", "UNMATCHED_DESTINATION_CITY" ]
-    },
-    "BKG-00034" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "MALFORMED_MESSAGE" ]
-    },
-    "BKG-00035" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
       "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
     },
+    "BKG-00033" : {
+      "topic" : "booking.enriched",
+      "origin" : "Pune",
+      "destination" : "Kolkata",
+      "reasons" : [ ]
+    },
+    "BKG-00034" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "MISSING_DESTINATION_CITY" ]
+    },
+    "BKG-00035" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "MALFORMED_MESSAGE" ]
+    },
     "BKG-00036" : {
       "topic" : "booking.enriched",
-      "origin" : "Hyderabad",
-      "destination" : "Bangalore",
+      "origin" : "New Delhi",
+      "destination" : "New Delhi",
       "reasons" : [ ]
     },
     "BKG-00037" : {
       "topic" : "booking.enriched",
-      "origin" : "Ahmedabad",
-      "destination" : "Pune",
+      "origin" : "Chennai",
+      "destination" : "Kolkata",
       "reasons" : [ ]
     },
     "BKG-00038" : {
-      "topic" : "booking.enriched",
-      "origin" : "Chennai",
-      "destination" : "Chennai",
-      "reasons" : [ ]
-    },
-    "BKG-00039" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "MISSING_ORIGIN_CITY" ]
+      "reasons" : [ "MISSING_DESTINATION_CITY" ]
+    },
+    "BKG-00039" : {
+      "topic" : "booking.enriched",
+      "origin" : "New Delhi",
+      "destination" : "Hyderabad",
+      "reasons" : [ ]
     },
     "BKG-00040" : {
-      "topic" : "booking.enriched",
-      "origin" : "Chennai",
-      "destination" : "Pune",
-      "reasons" : [ ]
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY", "UNMATCHED_DESTINATION_CITY" ]
     },
     "BKG-00041" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
     },
     "BKG-00042" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "MISSING_DESTINATION_CITY" ]
+      "reasons" : [ "MISSING_ORIGIN_CITY" ]
     },
     "BKG-00043" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "MISSING_DESTINATION_CITY" ]
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
     },
     "BKG-00044" : {
       "topic" : "booking.flagged",
@@ -282,64 +282,64 @@
       "reasons" : [ "UNMATCHED_ORIGIN_CITY", "UNMATCHED_DESTINATION_CITY" ]
     },
     "BKG-00045" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
+      "topic" : "booking.enriched",
+      "origin" : "Pune",
+      "destination" : "Kolkata",
+      "reasons" : [ ]
     },
     "BKG-00046" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
+      "topic" : "booking.enriched",
+      "origin" : "New Delhi",
+      "destination" : "Mumbai",
+      "reasons" : [ ]
     },
     "BKG-00047" : {
       "topic" : "booking.enriched",
-      "origin" : "Kolkata",
-      "destination" : "Hyderabad",
+      "origin" : "Hyderabad",
+      "destination" : "Pune",
       "reasons" : [ ]
     },
     "BKG-00048" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "MALFORMED_MESSAGE" ]
+      "reasons" : [ "MISSING_ORIGIN_CITY" ]
     },
     "BKG-00049" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "MISSING_DESTINATION_CITY" ]
+      "topic" : "booking.enriched",
+      "origin" : "Ahmedabad",
+      "destination" : "Hyderabad",
+      "reasons" : [ ]
     },
     "BKG-00050" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "MISSING_DESTINATION_CITY" ]
+      "reasons" : [ "MALFORMED_MESSAGE" ]
     },
     "BKG-00051" : {
-      "topic" : "booking.enriched",
-      "origin" : "Chennai",
-      "destination" : "New Delhi",
-      "reasons" : [ ]
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
     },
     "BKG-00052" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "MALFORMED_MESSAGE" ]
+      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
     },
     "BKG-00053" : {
-      "topic" : "booking.enriched",
-      "origin" : "Ahmedabad",
-      "destination" : "Kolkata",
-      "reasons" : [ ]
-    },
-    "BKG-00054" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "MISSING_DESTINATION_CITY" ]
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY", "UNMATCHED_DESTINATION_CITY" ]
+    },
+    "BKG-00054" : {
+      "topic" : "booking.enriched",
+      "origin" : "Mumbai",
+      "destination" : "Pune",
+      "reasons" : [ ]
     },
     "BKG-00055" : {
       "topic" : "booking.flagged",
@@ -349,165 +349,165 @@
     },
     "BKG-00056" : {
       "topic" : "booking.enriched",
-      "origin" : "Kolkata",
-      "destination" : "Mumbai",
-      "reasons" : [ ]
-    },
-    "BKG-00057" : {
-      "topic" : "booking.enriched",
-      "origin" : "New Delhi",
-      "destination" : "Pune",
-      "reasons" : [ ]
-    },
-    "BKG-00058" : {
-      "topic" : "booking.enriched",
-      "origin" : "Mumbai",
+      "origin" : "Hyderabad",
       "destination" : "Hyderabad",
       "reasons" : [ ]
     },
-    "BKG-00059" : {
-      "topic" : "booking.enriched",
-      "origin" : "Ahmedabad",
-      "destination" : "Mumbai",
-      "reasons" : [ ]
-    },
-    "BKG-00060" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "UNMATCHED_ORIGIN_CITY", "UNMATCHED_DESTINATION_CITY" ]
-    },
-    "BKG-00061" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
-    },
-    "BKG-00062" : {
+    "BKG-00057" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
       "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
     },
-    "BKG-00063" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "MISSING_DESTINATION_CITY" ]
-    },
-    "BKG-00064" : {
-      "topic" : "booking.enriched",
-      "origin" : "Ahmedabad",
-      "destination" : "Pune",
-      "reasons" : [ ]
-    },
-    "BKG-00065" : {
+    "BKG-00058" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
       "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
     },
-    "BKG-00066" : {
+    "BKG-00059" : {
+      "topic" : "booking.enriched",
+      "origin" : "Pune",
+      "destination" : "New Delhi",
+      "reasons" : [ ]
+    },
+    "BKG-00060" : {
+      "topic" : "booking.enriched",
+      "origin" : "Mumbai",
+      "destination" : "Hyderabad",
+      "reasons" : [ ]
+    },
+    "BKG-00061" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "MISSING_ORIGIN_CITY" ]
+    },
+    "BKG-00062" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
+    },
+    "BKG-00063" : {
+      "topic" : "booking.enriched",
+      "origin" : "Kolkata",
+      "destination" : "Pune",
+      "reasons" : [ ]
+    },
+    "BKG-00064" : {
       "topic" : "booking.enriched",
       "origin" : "Hyderabad",
       "destination" : "Bangalore",
       "reasons" : [ ]
     },
-    "BKG-00067" : {
+    "BKG-00065" : {
       "topic" : "booking.enriched",
-      "origin" : "Pune",
-      "destination" : "Hyderabad",
-      "reasons" : [ ]
-    },
-    "BKG-00068" : {
-      "topic" : "booking.enriched",
-      "origin" : "Chennai",
+      "origin" : "Bangalore",
       "destination" : "New Delhi",
       "reasons" : [ ]
+    },
+    "BKG-00066" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY", "UNMATCHED_DESTINATION_CITY" ]
+    },
+    "BKG-00067" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
+    },
+    "BKG-00068" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
     },
     "BKG-00069" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "MISSING_ORIGIN_CITY", "UNMATCHED_DESTINATION_CITY" ]
+      "reasons" : [ "MISSING_DESTINATION_CITY" ]
     },
     "BKG-00070" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "MISSING_DESTINATION_CITY" ]
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
     },
     "BKG-00071" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "MISSING_DESTINATION_CITY" ]
-    },
-    "BKG-00072" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
-    },
-    "BKG-00073" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "MISSING_DESTINATION_CITY" ]
-    },
-    "BKG-00074" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "MISSING_DESTINATION_CITY" ]
-    },
-    "BKG-00075" : {
       "topic" : "booking.enriched",
-      "origin" : "Mumbai",
-      "destination" : "Mumbai",
-      "reasons" : [ ]
-    },
-    "BKG-00076" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
-    },
-    "BKG-00077" : {
-      "topic" : "booking.enriched",
-      "origin" : "Kolkata",
+      "origin" : "New Delhi",
       "destination" : "Pune",
       "reasons" : [ ]
     },
-    "BKG-00078" : {
+    "BKG-00072" : {
       "topic" : "booking.enriched",
-      "origin" : "Ahmedabad",
-      "destination" : "Mumbai",
+      "origin" : "Kolkata",
+      "destination" : "Ahmedabad",
       "reasons" : [ ]
+    },
+    "BKG-00073" : {
+      "topic" : "booking.enriched",
+      "origin" : "Mumbai",
+      "destination" : "Kolkata",
+      "reasons" : [ ]
+    },
+    "BKG-00074" : {
+      "topic" : "booking.enriched",
+      "origin" : "Pune",
+      "destination" : "Kolkata",
+      "reasons" : [ ]
+    },
+    "BKG-00075" : {
+      "topic" : "booking.enriched",
+      "origin" : "Bangalore",
+      "destination" : "Kolkata",
+      "reasons" : [ ]
+    },
+    "BKG-00076" : {
+      "topic" : "booking.enriched",
+      "origin" : "Hyderabad",
+      "destination" : "Bangalore",
+      "reasons" : [ ]
+    },
+    "BKG-00077" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "MALFORMED_MESSAGE" ]
+    },
+    "BKG-00078" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "MISSING_DESTINATION_CITY" ]
     },
     "BKG-00079" : {
       "topic" : "booking.enriched",
-      "origin" : "Mumbai",
-      "destination" : "Ahmedabad",
+      "origin" : "Chennai",
+      "destination" : "Bangalore",
       "reasons" : [ ]
     },
     "BKG-00080" : {
       "topic" : "booking.enriched",
-      "origin" : "New Delhi",
-      "destination" : "Chennai",
+      "origin" : "Bangalore",
+      "destination" : "Hyderabad",
       "reasons" : [ ]
     },
     "BKG-00081" : {
-      "topic" : "booking.enriched",
-      "origin" : "Kolkata",
-      "destination" : "Mumbai",
-      "reasons" : [ ]
-    },
-    "BKG-00082" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "MISSING_ORIGIN_CITY", "MISSING_DESTINATION_CITY" ]
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY", "MISSING_DESTINATION_CITY" ]
+    },
+    "BKG-00082" : {
+      "topic" : "booking.enriched",
+      "origin" : "Mumbai",
+      "destination" : "Chennai",
+      "reasons" : [ ]
     },
     "BKG-00083" : {
       "topic" : "booking.enriched",
@@ -523,49 +523,49 @@
     },
     "BKG-00085" : {
       "topic" : "booking.enriched",
-      "origin" : "Bangalore",
-      "destination" : "Bangalore",
+      "origin" : "Chennai",
+      "destination" : "Kolkata",
       "reasons" : [ ]
     },
     "BKG-00086" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "MISSING_ORIGIN_CITY" ]
+      "topic" : "booking.enriched",
+      "origin" : "Chennai",
+      "destination" : "Mumbai",
+      "reasons" : [ ]
     },
     "BKG-00087" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
+      "reasons" : [ "MISSING_ORIGIN_CITY" ]
     },
     "BKG-00088" : {
-      "topic" : "booking.enriched",
-      "origin" : "Chennai",
-      "destination" : "New Delhi",
-      "reasons" : [ ]
-    },
-    "BKG-00089" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "MISSING_DESTINATION_CITY" ]
-    },
-    "BKG-00090" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
-    },
-    "BKG-00091" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
       "reasons" : [ "MISSING_ORIGIN_CITY" ]
     },
-    "BKG-00092" : {
+    "BKG-00089" : {
       "topic" : "booking.enriched",
       "origin" : "Kolkata",
+      "destination" : "Kolkata",
+      "reasons" : [ ]
+    },
+    "BKG-00090" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "MALFORMED_MESSAGE" ]
+    },
+    "BKG-00091" : {
+      "topic" : "booking.enriched",
+      "origin" : "Kolkata",
+      "destination" : "Kolkata",
+      "reasons" : [ ]
+    },
+    "BKG-00092" : {
+      "topic" : "booking.enriched",
+      "origin" : "Bangalore",
       "destination" : "Kolkata",
       "reasons" : [ ]
     },
@@ -573,18 +573,18 @@
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "MALFORMED_MESSAGE" ]
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
     },
     "BKG-00094" : {
-      "topic" : "booking.enriched",
-      "origin" : "Kolkata",
-      "destination" : "Kolkata",
-      "reasons" : [ ]
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
     },
     "BKG-00095" : {
       "topic" : "booking.enriched",
-      "origin" : "Pune",
-      "destination" : "Kolkata",
+      "origin" : "Hyderabad",
+      "destination" : "Bangalore",
       "reasons" : [ ]
     },
     "BKG-00096" : {
@@ -594,178 +594,178 @@
       "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
     },
     "BKG-00097" : {
-      "topic" : "booking.enriched",
-      "origin" : "Hyderabad",
-      "destination" : "Chennai",
-      "reasons" : [ ]
-    },
-    "BKG-00098" : {
-      "topic" : "booking.enriched",
-      "origin" : "Bangalore",
-      "destination" : "Hyderabad",
-      "reasons" : [ ]
-    },
-    "BKG-00099" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
       "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
     },
-    "BKG-00100" : {
+    "BKG-00098" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
+      "reasons" : [ "MALFORMED_MESSAGE" ]
+    },
+    "BKG-00099" : {
+      "topic" : "booking.enriched",
+      "origin" : "Ahmedabad",
+      "destination" : "Chennai",
+      "reasons" : [ ]
+    },
+    "BKG-00100" : {
+      "topic" : "booking.enriched",
+      "origin" : "Mumbai",
+      "destination" : "Pune",
+      "reasons" : [ ]
     },
     "BKG-00101" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "MISSING_ORIGIN_CITY" ]
+      "topic" : "booking.enriched",
+      "origin" : "Ahmedabad",
+      "destination" : "Pune",
+      "reasons" : [ ]
     },
     "BKG-00102" : {
       "topic" : "booking.enriched",
-      "origin" : "Pune",
-      "destination" : "Pune",
+      "origin" : "Mumbai",
+      "destination" : "New Delhi",
       "reasons" : [ ]
     },
     "BKG-00103" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
+      "reasons" : [ "MISSING_ORIGIN_CITY", "MISSING_DESTINATION_CITY" ]
     },
     "BKG-00104" : {
       "topic" : "booking.enriched",
-      "origin" : "Hyderabad",
-      "destination" : "Mumbai",
+      "origin" : "Kolkata",
+      "destination" : "New Delhi",
       "reasons" : [ ]
     },
     "BKG-00105" : {
       "topic" : "booking.enriched",
-      "origin" : "Chennai",
-      "destination" : "Kolkata",
+      "origin" : "Kolkata",
+      "destination" : "Pune",
       "reasons" : [ ]
     },
     "BKG-00106" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "MISSING_ORIGIN_CITY" ]
+      "topic" : "booking.enriched",
+      "origin" : "Pune",
+      "destination" : "Chennai",
+      "reasons" : [ ]
     },
     "BKG-00107" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "MISSING_ORIGIN_CITY" ]
-    },
-    "BKG-00108" : {
       "topic" : "booking.enriched",
-      "origin" : "New Delhi",
+      "origin" : "Ahmedabad",
       "destination" : "Hyderabad",
       "reasons" : [ ]
     },
+    "BKG-00108" : {
+      "topic" : "booking.enriched",
+      "origin" : "Bangalore",
+      "destination" : "Chennai",
+      "reasons" : [ ]
+    },
     "BKG-00109" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
+      "topic" : "booking.enriched",
+      "origin" : "Hyderabad",
+      "destination" : "Kolkata",
+      "reasons" : [ ]
     },
     "BKG-00110" : {
       "topic" : "booking.enriched",
       "origin" : "Hyderabad",
-      "destination" : "Mumbai",
+      "destination" : "Chennai",
       "reasons" : [ ]
     },
     "BKG-00111" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "MISSING_ORIGIN_CITY" ]
-    },
-    "BKG-00112" : {
-      "topic" : "booking.enriched",
-      "origin" : "Ahmedabad",
-      "destination" : "Kolkata",
-      "reasons" : [ ]
-    },
-    "BKG-00113" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "UNMATCHED_ORIGIN_CITY", "UNMATCHED_DESTINATION_CITY" ]
-    },
-    "BKG-00114" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
-    },
-    "BKG-00115" : {
-      "topic" : "booking.enriched",
-      "origin" : "Hyderabad",
-      "destination" : "Ahmedabad",
-      "reasons" : [ ]
-    },
-    "BKG-00116" : {
       "topic" : "booking.enriched",
       "origin" : "Pune",
       "destination" : "Bangalore",
       "reasons" : [ ]
     },
-    "BKG-00117" : {
+    "BKG-00112" : {
+      "topic" : "booking.enriched",
+      "origin" : "Hyderabad",
+      "destination" : "Ahmedabad",
+      "reasons" : [ ]
+    },
+    "BKG-00113" : {
+      "topic" : "booking.enriched",
+      "origin" : "Pune",
+      "destination" : "Bangalore",
+      "reasons" : [ ]
+    },
+    "BKG-00114" : {
       "topic" : "booking.enriched",
       "origin" : "Ahmedabad",
       "destination" : "Mumbai",
       "reasons" : [ ]
     },
+    "BKG-00115" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "MISSING_DESTINATION_CITY" ]
+    },
+    "BKG-00116" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
+    },
+    "BKG-00117" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
+    },
     "BKG-00118" : {
       "topic" : "booking.enriched",
-      "origin" : "New Delhi",
-      "destination" : "Ahmedabad",
+      "origin" : "Kolkata",
+      "destination" : "Pune",
       "reasons" : [ ]
     },
     "BKG-00119" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY", "MISSING_DESTINATION_CITY" ]
     },
     "BKG-00120" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
+      "topic" : "booking.enriched",
+      "origin" : "New Delhi",
+      "destination" : "Chennai",
+      "reasons" : [ ]
     },
     "BKG-00121" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
     },
     "BKG-00122" : {
-      "topic" : "booking.enriched",
-      "origin" : "New Delhi",
-      "destination" : "Hyderabad",
-      "reasons" : [ ]
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
     },
     "BKG-00123" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "UNMATCHED_ORIGIN_CITY", "UNMATCHED_DESTINATION_CITY" ]
+      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
     },
     "BKG-00124" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
+      "topic" : "booking.enriched",
+      "origin" : "Kolkata",
+      "destination" : "New Delhi",
+      "reasons" : [ ]
     },
     "BKG-00125" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
+      "topic" : "booking.enriched",
+      "origin" : "New Delhi",
+      "destination" : "Bangalore",
+      "reasons" : [ ]
     },
     "BKG-00126" : {
       "topic" : "booking.flagged",
@@ -776,20 +776,20 @@
     "BKG-00127" : {
       "topic" : "booking.enriched",
       "origin" : "Kolkata",
-      "destination" : "Ahmedabad",
+      "destination" : "Bangalore",
       "reasons" : [ ]
     },
     "BKG-00128" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
+      "topic" : "booking.enriched",
+      "origin" : "Bangalore",
+      "destination" : "Mumbai",
+      "reasons" : [ ]
     },
     "BKG-00129" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "MISSING_ORIGIN_CITY" ]
+      "topic" : "booking.enriched",
+      "origin" : "Pune",
+      "destination" : "New Delhi",
+      "reasons" : [ ]
     },
     "BKG-00130" : {
       "topic" : "booking.flagged",
@@ -798,64 +798,64 @@
       "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
     },
     "BKG-00131" : {
-      "topic" : "booking.enriched",
-      "origin" : "Pune",
-      "destination" : "Ahmedabad",
-      "reasons" : [ ]
-    },
-    "BKG-00132" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
-    },
-    "BKG-00133" : {
-      "topic" : "booking.enriched",
-      "origin" : "New Delhi",
-      "destination" : "Bangalore",
-      "reasons" : [ ]
-    },
-    "BKG-00134" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
-    },
-    "BKG-00135" : {
-      "topic" : "booking.enriched",
-      "origin" : "Ahmedabad",
-      "destination" : "New Delhi",
-      "reasons" : [ ]
-    },
-    "BKG-00136" : {
-      "topic" : "booking.enriched",
-      "origin" : "Hyderabad",
-      "destination" : "Chennai",
-      "reasons" : [ ]
-    },
-    "BKG-00137" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
       "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
     },
-    "BKG-00138" : {
+    "BKG-00132" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "MISSING_DESTINATION_CITY" ]
+      "reasons" : [ "MISSING_ORIGIN_CITY" ]
+    },
+    "BKG-00133" : {
+      "topic" : "booking.enriched",
+      "origin" : "Pune",
+      "destination" : "Kolkata",
+      "reasons" : [ ]
+    },
+    "BKG-00134" : {
+      "topic" : "booking.enriched",
+      "origin" : "Chennai",
+      "destination" : "Kolkata",
+      "reasons" : [ ]
+    },
+    "BKG-00135" : {
+      "topic" : "booking.enriched",
+      "origin" : "Bangalore",
+      "destination" : "New Delhi",
+      "reasons" : [ ]
+    },
+    "BKG-00136" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
+    },
+    "BKG-00137" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
+    },
+    "BKG-00138" : {
+      "topic" : "booking.enriched",
+      "origin" : "Ahmedabad",
+      "destination" : "New Delhi",
+      "reasons" : [ ]
     },
     "BKG-00139" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "MISSING_DESTINATION_CITY" ]
+      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
     },
     "BKG-00140" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "UNMATCHED_ORIGIN_CITY", "MISSING_DESTINATION_CITY" ]
+      "topic" : "booking.enriched",
+      "origin" : "Pune",
+      "destination" : "New Delhi",
+      "reasons" : [ ]
     },
     "BKG-00141" : {
       "topic" : "booking.flagged",
@@ -864,58 +864,58 @@
       "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
     },
     "BKG-00142" : {
-      "topic" : "booking.enriched",
-      "origin" : "Ahmedabad",
-      "destination" : "Pune",
-      "reasons" : [ ]
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
     },
     "BKG-00143" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "MALFORMED_MESSAGE" ]
+      "reasons" : [ "MISSING_ORIGIN_CITY", "MISSING_DESTINATION_CITY" ]
     },
     "BKG-00144" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "MALFORMED_MESSAGE" ]
+      "reasons" : [ "MISSING_DESTINATION_CITY" ]
     },
     "BKG-00145" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
+      "reasons" : [ "MISSING_DESTINATION_CITY" ]
     },
     "BKG-00146" : {
       "topic" : "booking.enriched",
-      "origin" : "Pune",
-      "destination" : "Ahmedabad",
+      "origin" : "Hyderabad",
+      "destination" : "Bangalore",
       "reasons" : [ ]
     },
     "BKG-00147" : {
       "topic" : "booking.enriched",
-      "origin" : "Pune",
-      "destination" : "Kolkata",
+      "origin" : "Ahmedabad",
+      "destination" : "Mumbai",
       "reasons" : [ ]
     },
     "BKG-00148" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "MISSING_DESTINATION_CITY" ]
+      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
     },
     "BKG-00149" : {
+      "topic" : "booking.enriched",
+      "origin" : "Pune",
+      "destination" : "Ahmedabad",
+      "reasons" : [ ]
+    },
+    "BKG-00150" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
       "reasons" : [ "MISSING_ORIGIN_CITY" ]
-    },
-    "BKG-00150" : {
-      "topic" : "booking.enriched",
-      "origin" : "Bangalore",
-      "destination" : "Ahmedabad",
-      "reasons" : [ ]
     },
     "BKG-00151" : {
       "topic" : "booking.flagged",
@@ -925,291 +925,291 @@
     },
     "BKG-00152" : {
       "topic" : "booking.enriched",
-      "origin" : "New Delhi",
-      "destination" : "Chennai",
+      "origin" : "Chennai",
+      "destination" : "Ahmedabad",
       "reasons" : [ ]
     },
     "BKG-00153" : {
-      "topic" : "booking.enriched",
-      "origin" : "Chennai",
-      "destination" : "Bangalore",
-      "reasons" : [ ]
-    },
-    "BKG-00154" : {
-      "topic" : "booking.enriched",
-      "origin" : "Hyderabad",
-      "destination" : "Pune",
-      "reasons" : [ ]
-    },
-    "BKG-00155" : {
-      "topic" : "booking.enriched",
-      "origin" : "Pune",
-      "destination" : "Ahmedabad",
-      "reasons" : [ ]
-    },
-    "BKG-00156" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "MISSING_ORIGIN_CITY" ]
-    },
-    "BKG-00157" : {
-      "topic" : "booking.enriched",
-      "origin" : "Pune",
-      "destination" : "Hyderabad",
-      "reasons" : [ ]
-    },
-    "BKG-00158" : {
-      "topic" : "booking.enriched",
-      "origin" : "Kolkata",
-      "destination" : "Pune",
-      "reasons" : [ ]
-    },
-    "BKG-00159" : {
-      "topic" : "booking.enriched",
-      "origin" : "Mumbai",
-      "destination" : "Ahmedabad",
-      "reasons" : [ ]
-    },
-    "BKG-00160" : {
-      "topic" : "booking.enriched",
-      "origin" : "New Delhi",
-      "destination" : "Mumbai",
-      "reasons" : [ ]
-    },
-    "BKG-00161" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "MISSING_DESTINATION_CITY" ]
-    },
-    "BKG-00162" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
-    },
-    "BKG-00163" : {
-      "topic" : "booking.enriched",
-      "origin" : "New Delhi",
-      "destination" : "Ahmedabad",
-      "reasons" : [ ]
-    },
-    "BKG-00164" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
-    },
-    "BKG-00165" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "UNMATCHED_ORIGIN_CITY", "UNMATCHED_DESTINATION_CITY" ]
-    },
-    "BKG-00166" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "MISSING_ORIGIN_CITY", "UNMATCHED_DESTINATION_CITY" ]
-    },
-    "BKG-00167" : {
-      "topic" : "booking.enriched",
-      "origin" : "Pune",
-      "destination" : "Kolkata",
-      "reasons" : [ ]
-    },
-    "BKG-00168" : {
-      "topic" : "booking.enriched",
-      "origin" : "Chennai",
-      "destination" : "Kolkata",
-      "reasons" : [ ]
-    },
-    "BKG-00169" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
-    },
-    "BKG-00170" : {
-      "topic" : "booking.enriched",
-      "origin" : "Ahmedabad",
-      "destination" : "Hyderabad",
-      "reasons" : [ ]
-    },
-    "BKG-00171" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "MISSING_ORIGIN_CITY" ]
-    },
-    "BKG-00172" : {
-      "topic" : "booking.enriched",
-      "origin" : "Bangalore",
-      "destination" : "New Delhi",
-      "reasons" : [ ]
-    },
-    "BKG-00173" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "MISSING_ORIGIN_CITY" ]
-    },
-    "BKG-00174" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
       "reasons" : [ "MALFORMED_MESSAGE" ]
     },
-    "BKG-00175" : {
-      "topic" : "booking.enriched",
-      "origin" : "Kolkata",
-      "destination" : "Kolkata",
-      "reasons" : [ ]
+    "BKG-00154" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
     },
-    "BKG-00176" : {
+    "BKG-00155" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "MISSING_ORIGIN_CITY" ]
+    },
+    "BKG-00156" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
       "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
     },
-    "BKG-00177" : {
+    "BKG-00157" : {
+      "topic" : "booking.enriched",
+      "origin" : "Hyderabad",
+      "destination" : "Chennai",
+      "reasons" : [ ]
+    },
+    "BKG-00158" : {
+      "topic" : "booking.enriched",
+      "origin" : "Chennai",
+      "destination" : "Hyderabad",
+      "reasons" : [ ]
+    },
+    "BKG-00159" : {
+      "topic" : "booking.enriched",
+      "origin" : "Chennai",
+      "destination" : "Hyderabad",
+      "reasons" : [ ]
+    },
+    "BKG-00160" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
+    },
+    "BKG-00161" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
+    },
+    "BKG-00162" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY", "UNMATCHED_DESTINATION_CITY" ]
+    },
+    "BKG-00163" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "MISSING_DESTINATION_CITY" ]
+    },
+    "BKG-00164" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "MISSING_ORIGIN_CITY", "UNMATCHED_DESTINATION_CITY" ]
+    },
+    "BKG-00165" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "MISSING_ORIGIN_CITY", "MISSING_DESTINATION_CITY" ]
+    },
+    "BKG-00166" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
+    },
+    "BKG-00167" : {
+      "topic" : "booking.enriched",
+      "origin" : "Kolkata",
+      "destination" : "Hyderabad",
+      "reasons" : [ ]
+    },
+    "BKG-00168" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "MALFORMED_MESSAGE" ]
+    },
+    "BKG-00169" : {
+      "topic" : "booking.enriched",
+      "origin" : "Kolkata",
+      "destination" : "Mumbai",
+      "reasons" : [ ]
+    },
+    "BKG-00170" : {
       "topic" : "booking.enriched",
       "origin" : "Hyderabad",
       "destination" : "Bangalore",
+      "reasons" : [ ]
+    },
+    "BKG-00171" : {
+      "topic" : "booking.enriched",
+      "origin" : "New Delhi",
+      "destination" : "Chennai",
+      "reasons" : [ ]
+    },
+    "BKG-00172" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY", "UNMATCHED_DESTINATION_CITY" ]
+    },
+    "BKG-00173" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
+    },
+    "BKG-00174" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
+    },
+    "BKG-00175" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "MISSING_ORIGIN_CITY" ]
+    },
+    "BKG-00176" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "MISSING_ORIGIN_CITY", "MISSING_DESTINATION_CITY" ]
+    },
+    "BKG-00177" : {
+      "topic" : "booking.enriched",
+      "origin" : "New Delhi",
+      "destination" : "New Delhi",
       "reasons" : [ ]
     },
     "BKG-00178" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "UNMATCHED_ORIGIN_CITY", "UNMATCHED_DESTINATION_CITY" ]
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY", "MISSING_DESTINATION_CITY" ]
     },
     "BKG-00179" : {
-      "topic" : "booking.enriched",
-      "origin" : "Chennai",
-      "destination" : "Pune",
-      "reasons" : [ ]
-    },
-    "BKG-00180" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "MISSING_ORIGIN_CITY" ]
-    },
-    "BKG-00181" : {
-      "topic" : "booking.enriched",
-      "origin" : "Hyderabad",
-      "destination" : "Hyderabad",
-      "reasons" : [ ]
-    },
-    "BKG-00182" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "MISSING_DESTINATION_CITY" ]
-    },
-    "BKG-00183" : {
-      "topic" : "booking.enriched",
-      "origin" : "Kolkata",
-      "destination" : "Kolkata",
-      "reasons" : [ ]
-    },
-    "BKG-00184" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
       "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
     },
+    "BKG-00180" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "MISSING_DESTINATION_CITY" ]
+    },
+    "BKG-00181" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
+    },
+    "BKG-00182" : {
+      "topic" : "booking.enriched",
+      "origin" : "New Delhi",
+      "destination" : "Hyderabad",
+      "reasons" : [ ]
+    },
+    "BKG-00183" : {
+      "topic" : "booking.flagged",
+      "origin" : null,
+      "destination" : null,
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
+    },
+    "BKG-00184" : {
+      "topic" : "booking.enriched",
+      "origin" : "Bangalore",
+      "destination" : "Pune",
+      "reasons" : [ ]
+    },
     "BKG-00185" : {
       "topic" : "booking.enriched",
-      "origin" : "Chennai",
-      "destination" : "Ahmedabad",
+      "origin" : "Pune",
+      "destination" : "New Delhi",
       "reasons" : [ ]
     },
     "BKG-00186" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "MALFORMED_MESSAGE" ]
+      "reasons" : [ "MISSING_ORIGIN_CITY" ]
     },
     "BKG-00187" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "MISSING_ORIGIN_CITY" ]
+      "reasons" : [ "MISSING_DESTINATION_CITY" ]
     },
     "BKG-00188" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
     },
     "BKG-00189" : {
       "topic" : "booking.enriched",
-      "origin" : "Hyderabad",
-      "destination" : "New Delhi",
+      "origin" : "New Delhi",
+      "destination" : "Bangalore",
       "reasons" : [ ]
     },
     "BKG-00190" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY" ]
     },
     "BKG-00191" : {
       "topic" : "booking.enriched",
-      "origin" : "Bangalore",
-      "destination" : "Ahmedabad",
+      "origin" : "Kolkata",
+      "destination" : "Bangalore",
       "reasons" : [ ]
     },
     "BKG-00192" : {
+      "topic" : "booking.enriched",
+      "origin" : "Hyderabad",
+      "destination" : "Kolkata",
+      "reasons" : [ ]
+    },
+    "BKG-00193" : {
+      "topic" : "booking.enriched",
+      "origin" : "Pune",
+      "destination" : "Chennai",
+      "reasons" : [ ]
+    },
+    "BKG-00194" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
       "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
-    },
-    "BKG-00193" : {
-      "topic" : "booking.flagged",
-      "origin" : null,
-      "destination" : null,
-      "reasons" : [ "MALFORMED_MESSAGE" ]
-    },
-    "BKG-00194" : {
-      "topic" : "booking.enriched",
-      "origin" : "Chennai",
-      "destination" : "Kolkata",
-      "reasons" : [ ]
     },
     "BKG-00195" : {
       "topic" : "booking.enriched",
-      "origin" : "Chennai",
-      "destination" : "Kolkata",
+      "origin" : "Bangalore",
+      "destination" : "Hyderabad",
       "reasons" : [ ]
     },
     "BKG-00196" : {
-      "topic" : "booking.enriched",
-      "origin" : "Kolkata",
-      "destination" : "Kolkata",
-      "reasons" : [ ]
-    },
-    "BKG-00197" : {
-      "topic" : "booking.enriched",
-      "origin" : "Chennai",
-      "destination" : "Mumbai",
-      "reasons" : [ ]
-    },
-    "BKG-00198" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "UNMATCHED_DESTINATION_CITY" ]
+      "reasons" : [ "MISSING_DESTINATION_CITY" ]
+    },
+    "BKG-00197" : {
+      "topic" : "booking.enriched",
+      "origin" : "Ahmedabad",
+      "destination" : "Ahmedabad",
+      "reasons" : [ ]
+    },
+    "BKG-00198" : {
+      "topic" : "booking.enriched",
+      "origin" : "Hyderabad",
+      "destination" : "Hyderabad",
+      "reasons" : [ ]
     },
     "BKG-00199" : {
       "topic" : "booking.flagged",
       "origin" : null,
       "destination" : null,
-      "reasons" : [ "MISSING_ORIGIN_CITY" ]
+      "reasons" : [ "UNMATCHED_ORIGIN_CITY", "MISSING_DESTINATION_CITY" ]
     }
   }
 }

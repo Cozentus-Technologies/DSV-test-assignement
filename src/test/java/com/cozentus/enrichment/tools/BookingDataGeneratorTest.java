@@ -1,6 +1,7 @@
 package com.cozentus.enrichment.tools;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 import com.cozentus.enrichment.JsonSupport;
 import com.cozentus.enrichment.enrich.BookingEnricher;
@@ -18,6 +19,8 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -226,6 +229,128 @@ class BookingDataGeneratorTest {
             return null;
         } catch (RuntimeException e) {
             return e;
+        }
+    }
+
+    // --- new corruptions: SUBSTITUTE_CHAR, PHONETIC, KEYBOARD_ADJACENT --
+
+    private static final Set<Character> KEYBOARD_LETTERS =
+            Set.of('q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
+                    'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l',
+                    'z', 'x', 'c', 'v', 'b', 'n', 'm');
+
+    @Test
+    @DisplayName("SUBSTITUTE_CHAR always changes the value")
+    void substituteCharAlwaysChangesTheValue() {
+        Random random = new Random(7);
+        for (String city : List.of("Mumbai", "New Delhi", "Bangalore", "Chennai",
+                "Kolkata", "Pune", "Hyderabad", "Ahmedabad")) {
+            for (int i = 0; i < 20; i++) {
+                String corrupted = BookingDataGenerator.substituteChar(random, city);
+                assertThat(corrupted).isNotEqualTo(city);
+                assertThat(corrupted).hasSize(city.length());
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("PHONETIC applies the first matching rule, or leaves the value unchanged")
+    void phoneticAppliesFirstMatchingRuleOrLeavesUnchanged() {
+        // "Mumbai" contains a rule form ("ai" / lone "i"), so it must change.
+        assertThat(BookingDataGenerator.phonetic("Mumbai")).isNotEqualTo("Mumbai");
+
+        // A string built to contain none of the table's forms is returned unchanged.
+        String noRuleMatch = "xyzzy".replace("z", "");
+        assertThat(BookingDataGenerator.phonetic(noRuleMatch)).isEqualTo(noRuleMatch);
+    }
+
+    @Test
+    @DisplayName("PHONETIC never throws across all eight reference cities")
+    void phoneticNeverThrowsOnReferenceCities() {
+        for (String city : List.of("Mumbai", "New Delhi", "Bangalore", "Chennai",
+                "Kolkata", "Pune", "Hyderabad", "Ahmedabad")) {
+            String corrupted = BookingDataGenerator.phonetic(city);
+            assertThat(corrupted).isNotNull();
+        }
+    }
+
+    @Test
+    @DisplayName("KEYBOARD_ADJACENT only ever produces a character from the adjacency map")
+    void keyboardAdjacentOnlyProducesMappedNeighbours() {
+        Random random = new Random(11);
+        for (String city : List.of("Mumbai", "New Delhi", "Bangalore", "Chennai",
+                "Kolkata", "Pune", "Hyderabad", "Ahmedabad")) {
+            for (int i = 0; i < 20; i++) {
+                String corrupted = BookingDataGenerator.keyboardAdjacent(random, city);
+                assertThat(corrupted).hasSize(city.length());
+
+                int diffAt = -1;
+                for (int c = 0; c < city.length(); c++) {
+                    if (city.charAt(c) != corrupted.charAt(c)) {
+                        diffAt = c;
+                        break;
+                    }
+                }
+                assertThat(diffAt).as("expected exactly one differing position for %s -> %s",
+                        city, corrupted).isGreaterThanOrEqualTo(0);
+
+                char original = Character.toLowerCase(city.charAt(diffAt));
+                char replaced = Character.toLowerCase(corrupted.charAt(diffAt));
+                assertThat(KEYBOARD_LETTERS).contains(replaced);
+                assertThat(replaced).isNotEqualTo(original);
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("KEYBOARD_ADJACENT on a string with no letters returns it unchanged")
+    void keyboardAdjacentWithNoLettersIsUnchanged() {
+        Random random = new Random(3);
+        assertThat(BookingDataGenerator.keyboardAdjacent(random, "   ")).isEqualTo("   ");
+        assertThat(BookingDataGenerator.keyboardAdjacent(random, "123")).isEqualTo("123");
+    }
+
+    @Test
+    @DisplayName("empty or single-character input does not throw for any new corruption")
+    void newCorruptionsDoNotThrowOnEdgeCaseInput() {
+        Random random = new Random(5);
+        for (String value : List.of("", "X", "a")) {
+            assertThatCode(() -> BookingDataGenerator.substituteChar(random, value))
+                    .doesNotThrowAnyException();
+            assertThatCode(() -> BookingDataGenerator.phonetic(value))
+                    .doesNotThrowAnyException();
+            assertThatCode(() -> BookingDataGenerator.keyboardAdjacent(random, value))
+                    .doesNotThrowAnyException();
+        }
+        assertThat(BookingDataGenerator.substituteChar(random, "")).isEmpty();
+        assertThat(BookingDataGenerator.phonetic("")).isEmpty();
+        assertThat(BookingDataGenerator.keyboardAdjacent(random, "")).isEmpty();
+    }
+
+    @Test
+    @DisplayName("a mix that only draws the new corruptions still lets the oracle agree with the enricher")
+    void newCorruptionsAgreeWithTheEnricherWhenForcedIntoEveryRow() throws IOException {
+        Path out = dir.resolve("new-corruptions.jsonl");
+        // recoverable-only mix: with these three corruptions now in the bucket the
+        // seeded draw exercises them alongside the pre-existing ones.
+        var oracle = new BookingDataGenerator(CityReference.fromClasspath(), 99,
+                new BookingDataGenerator.Mix(100, 0, 0)).generateTo(out, 300);
+        var enricher = new BookingEnricher(new CityMatcher(CityReference.fromClasspath()));
+
+        for (String row : rows(out)) {
+            Booking booking = JsonSupport.read(row, Booking.class);
+            var expected = oracle.byId().get(booking.bookingId());
+            var actual = enricher.enrich(booking);
+
+            if (actual instanceof EnrichedBooking enriched) {
+                assertThat(expected.topic()).isEqualTo(Topics.ENRICHED);
+                assertThat(expected.origin()).isEqualTo(enriched.origin());
+                assertThat(expected.destination()).isEqualTo(enriched.destination());
+            } else {
+                var flagged = (FlaggedBooking) actual;
+                assertThat(expected.topic()).isEqualTo(Topics.FLAGGED);
+                assertThat(expected.reasons()).isEqualTo(flagged.reasons());
+            }
         }
     }
 }

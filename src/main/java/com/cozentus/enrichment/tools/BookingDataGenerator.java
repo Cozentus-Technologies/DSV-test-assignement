@@ -15,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
@@ -62,12 +63,62 @@ public final class BookingDataGenerator {
 
     /** Corruptions, grouped by the bucket that selects them. */
     private enum Corruption {
-        NONE, UPPER, LOWER, TRIM_SPACES, DROP_CHAR, SWAP_CHARS, DOUBLE_CHAR, FOREIGN, EMPTY;
+        NONE, UPPER, LOWER, TRIM_SPACES, DROP_CHAR, SWAP_CHARS, DOUBLE_CHAR,
+        SUBSTITUTE_CHAR, PHONETIC, KEYBOARD_ADJACENT, FOREIGN, EMPTY;
 
         static final List<Corruption> RECOVERABLE =
-                List.of(NONE, UPPER, LOWER, TRIM_SPACES, DROP_CHAR, SWAP_CHARS, DOUBLE_CHAR);
+                List.of(NONE, UPPER, LOWER, TRIM_SPACES, DROP_CHAR, SWAP_CHARS, DOUBLE_CHAR,
+                        SUBSTITUTE_CHAR, PHONETIC, KEYBOARD_ADJACENT);
         static final List<Corruption> FLAGGABLE = List.of(FOREIGN, EMPTY);
     }
+
+    /**
+     * SPEC 9 / F-12: fixed phonetic substitution table, appropriate to the eight
+     * reference cities. Rules are tried in order; the first rule whose left- or
+     * right-hand form appears in the value fires (in whichever direction matched),
+     * replacing only its first occurrence. Bidirectional by design: a value may
+     * contain either spelling. If no rule matches, the value is returned unchanged
+     * rather than thrown on.
+     */
+    private static final List<String[]> PHONETIC_RULES = List.of(
+            new String[] {"ph", "f"},
+            new String[] {"c", "k"},
+            new String[] {"s", "z"},
+            new String[] {"ee", "i"},
+            new String[] {"oo", "u"},
+            new String[] {"ai", "ay"},
+            new String[] {"d", "dh"},
+            new String[] {"t", "th"},
+            new String[] {"v", "w"});
+
+    /** SPEC 9 / F-12: fixed QWERTY physical-adjacency map, lowercase letters only. */
+    private static final Map<Character, String> KEYBOARD_ADJACENCY = Map.ofEntries(
+            Map.entry('q', "wa"),
+            Map.entry('w', "qeas"),
+            Map.entry('e', "wrsd"),
+            Map.entry('r', "etdf"),
+            Map.entry('t', "rfgy"),
+            Map.entry('y', "tghu"),
+            Map.entry('u', "yhji"),
+            Map.entry('i', "ujko"),
+            Map.entry('o', "iklp"),
+            Map.entry('p', "ol"),
+            Map.entry('a', "qwsz"),
+            Map.entry('s', "awedxz"),
+            Map.entry('d', "serfcx"),
+            Map.entry('f', "drtgvc"),
+            Map.entry('g', "ftyhbv"),
+            Map.entry('h', "gyujnb"),
+            Map.entry('j', "huikmn"),
+            Map.entry('k', "jiolm"),
+            Map.entry('l', "kop"),
+            Map.entry('z', "asx"),
+            Map.entry('x', "zsdc"),
+            Map.entry('c', "xdfv"),
+            Map.entry('v', "cfgb"),
+            Map.entry('b', "vghn"),
+            Map.entry('n', "bhjm"),
+            Map.entry('m', "njk"));
 
     public record Expectation(String topic, String origin, String destination,
                               List<FlagReason> reasons) {
@@ -172,6 +223,9 @@ public final class BookingDataGenerator {
             case DROP_CHAR -> dropChar(random, city);
             case SWAP_CHARS -> swapChars(random, city);
             case DOUBLE_CHAR -> doubleChar(random, city);
+            case SUBSTITUTE_CHAR -> substituteChar(random, city);
+            case PHONETIC -> phonetic(city);
+            case KEYBOARD_ADJACENT -> keyboardAdjacent(random, city);
             case FOREIGN -> FOREIGN_CITIES.get(random.nextInt(FOREIGN_CITIES.size()));
             case EMPTY -> "";
         };
@@ -194,6 +248,68 @@ public final class BookingDataGenerator {
     private static String doubleChar(Random random, String value) {
         int at = random.nextInt(value.length());
         return value.substring(0, at + 1) + value.charAt(at) + value.substring(at + 1);
+    }
+
+    /** Replaces one character with a different arbitrary letter. Safe on empty input. */
+    static String substituteChar(Random random, String value) {
+        if (value.isEmpty()) {
+            return value;
+        }
+        int at = random.nextInt(value.length());
+        char original = value.charAt(at);
+        char replacement;
+        do {
+            replacement = (char) ('a' + random.nextInt(26));
+        } while (Character.toLowerCase(replacement) == Character.toLowerCase(original));
+        return value.substring(0, at) + replacement + value.substring(at + 1);
+    }
+
+    /**
+     * Replaces a letter group with a phonetically similar one using {@link #PHONETIC_RULES}.
+     * Applies the first rule (in table order) whose left- or right-hand form is found,
+     * replacing only that first occurrence. Returns the value unchanged if no rule
+     * matches, rather than throwing.
+     */
+    static String phonetic(String value) {
+        String lower = value.toLowerCase(Locale.ROOT);
+        for (String[] rule : PHONETIC_RULES) {
+            int at = lower.indexOf(rule[0]);
+            if (at >= 0) {
+                return value.substring(0, at) + rule[1] + value.substring(at + rule[0].length());
+            }
+            at = lower.indexOf(rule[1]);
+            if (at >= 0) {
+                return value.substring(0, at) + rule[0] + value.substring(at + rule[1].length());
+            }
+        }
+        return value;
+    }
+
+    /**
+     * Replaces one letter with a physical neighbour on a QWERTY keyboard, per
+     * {@link #KEYBOARD_ADJACENCY}. Only positions holding a mapped letter are eligible;
+     * if none exist (empty input, or no alphabetic characters), the value is returned
+     * unchanged. The replacement always comes from the adjacency map, case-matched to
+     * the original character.
+     */
+    static String keyboardAdjacent(Random random, String value) {
+        List<Integer> letterIndexes = new ArrayList<>();
+        for (int i = 0; i < value.length(); i++) {
+            if (KEYBOARD_ADJACENCY.containsKey(Character.toLowerCase(value.charAt(i)))) {
+                letterIndexes.add(i);
+            }
+        }
+        if (letterIndexes.isEmpty()) {
+            return value;
+        }
+        int at = letterIndexes.get(random.nextInt(letterIndexes.size()));
+        char original = value.charAt(at);
+        String neighbours = KEYBOARD_ADJACENCY.get(Character.toLowerCase(original));
+        char replacement = neighbours.charAt(random.nextInt(neighbours.length()));
+        if (Character.isUpperCase(original)) {
+            replacement = Character.toUpperCase(replacement);
+        }
+        return value.substring(0, at) + replacement + value.substring(at + 1);
     }
 
     private static String requestedDate(Random random) {

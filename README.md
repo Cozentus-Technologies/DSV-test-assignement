@@ -127,14 +127,14 @@ mvn -q exec:java -Dexec.args='--file data/bookings-sample.jsonl'
 ```
 rows published    200
 
-  booking.enriched   93
-  booking.flagged    107
+  booking.enriched   90
+  booking.flagged    110
 
-  UNMATCHED_ORIGIN_CITY        24
-  UNMATCHED_DESTINATION_CITY   43
-  MISSING_ORIGIN_CITY          21
-  MISSING_DESTINATION_CITY     22
-  MALFORMED_MESSAGE            10
+  UNMATCHED_ORIGIN_CITY        40
+  UNMATCHED_DESTINATION_CITY   35
+  MISSING_ORIGIN_CITY          19
+  MISSING_DESTINATION_CITY     25
+  MALFORMED_MESSAGE            8
 ```
 
 `--cities "Mumbai,New Delhi,...,Delhi"` overrides the reference list, which is how
